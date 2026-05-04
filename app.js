@@ -960,11 +960,31 @@
       updateTimelineUI();
     });
 
-    /* Point 5 (Козлодуй, index 4): fly smoothly to zoom 8 */
     var minZ = f.properties.min_zoom || 8;
     var targetZoom = Math.max(map.getZoom(), minZ);
     if (targetZoom > 8) { targetZoom = 8; }
-    map.setView(ll, targetZoom, { animate: true, duration: 0.9, easeLinearity: 0.5 });
+
+    /* On mobile, offset the pan target so the point lands in the visible
+       area above the timeline (and sidebar) panels — same logic as
+       onSegmentComplete uses during auto-play.                          */
+    var panCenter = ll;
+    if (window.innerWidth <= 1200) {
+      var vh = window.innerHeight;
+      var tl = document.getElementById('timeline');
+      var blockedBottom = tl ? tl.offsetHeight : 0;
+      if (document.body.classList.contains('sidebar-open')) {
+        var sEl = document.querySelector('.sidebar');
+        if (sEl) { blockedBottom += sEl.offsetHeight; }
+      }
+      var visY  = (vh - blockedBottom) / 2;
+      var lProj = map.project(ll, targetZoom);
+      panCenter = map.unproject(
+        L.point(lProj.x, lProj.y - visY + vh / 2),
+        targetZoom
+      );
+    }
+
+    map.setView(panCenter, targetZoom, { animate: true, duration: 0.9, easeLinearity: 0.5 });
   }
 
   /* ── SVG stroke-dashoffset helpers ──────────────────────── */
