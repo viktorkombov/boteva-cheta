@@ -512,6 +512,13 @@ body.zoom-7 .marker-dot.district-center {
     font-size: 1rem;
   }
 
+  /* sidebar-inner must stretch with flex so sidebar-content can scroll */
+  .sidebar-inner {
+    flex: 1;
+    min-height: 0;
+    height: auto;
+  }
+
   .sidebar-content {
     font-size: 0.9rem;
   }
@@ -973,6 +980,11 @@ body.timeline-collapsed .botev-lm { display: none !important; }
 }
 
 .timeline-playing #chetnitsi-search { display: none; }
+
+/* Prevent iOS Safari from zooming into the search field on focus */
+@media (pointer: coarse) {
+  .chetnitsi-search-input { font-size: 16px; }
+}
 
 /* ── Timeline panel ──────────────────────────────────────── */
 .timeline-panel {

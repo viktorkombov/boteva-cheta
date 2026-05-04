@@ -744,7 +744,7 @@
                      '<div class="botev-lm-bubble"><span class="botev-lm-num">' + num + '</span></div>' +
                      '<div class="botev-lm-stem"></div>' +
                      '<div class="botev-lm-dot"></div>' +
-                     '<div class="botev-lm-label">' + escapeHtml(f.properties.name) + '</div>' +
+                     '<div class="botev-lm-label">' + escapeHtml(f.properties.place || f.properties.name) + '</div>' +
                      '</div>',
         iconSize:    [24, 50],
         iconAnchor:  [12, 47],
@@ -1195,15 +1195,15 @@
       slider.disabled = locked;
     }
     if (play) {
-      if (isFinished)         { play.textContent = '↺ Отначало'; }
-      else if (botev.playing) { play.textContent = '❚❚ Пауза'; }
-      else if (isPaused)      { play.textContent = '▶ Продължи'; }
-      else                    { play.textContent = '▶ Пусни'; }
+      if (isFinished)         { play.textContent = '↺︎ Отначало'; }
+      else if (botev.playing) { play.textContent = '❚︎❚︎ Пауза'; }
+      else if (isPaused)      { play.textContent = '▶︎ Продължи'; }
+      else                    { play.textContent = '▶︎ Пусни'; }
       play.disabled = botev.isAnimating && !botev.playing;
     }
     if (stopBtn) {
       var isActive = botev.playing || isPaused || isFinished;
-      stopBtn.textContent = isActive && !botev.playing ? '✖ Затвори' : '■ Спри';
+      stopBtn.textContent = isActive && !botev.playing ? '✖︎ Затвори' : '■︎ Спри';
       stopBtn.disabled = !isActive;
     }
     if (prevBtn) { prevBtn.disabled = locked; }
