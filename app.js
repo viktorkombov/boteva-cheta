@@ -887,7 +887,7 @@
         if (botev.playing) {
           resetTimeline();
         } else if (isPaused || isFinished) {
-          resetTimeline();
+          resetTimeline(true);
           collapseTimelinePanel();
         }
       });
@@ -1319,7 +1319,7 @@
     });
   }
 
-  function resetTimeline() {
+  function resetTimeline(keepChetnitsi) {
     cancelAnimation();
     botev.playing      = false;
     botev.currentIndex = -1;
@@ -1339,10 +1339,12 @@
     });
     botev.revealedUpTo = -1;
 
-    layerOn.chetnitsi       = false;
-    chetnitsiUserDisabled   = false; /* allow auto-reveal again after next full play */
-    var cb = document.getElementById('toggle-chetnitsi');
-    if (cb) { cb.checked = false; }
+    if (!keepChetnitsi) {
+      layerOn.chetnitsi     = false;
+      chetnitsiUserDisabled = false; /* allow auto-reveal again after next full play */
+      var cb = document.getElementById('toggle-chetnitsi');
+      if (cb) { cb.checked = false; }
+    }
     if (layerGroups.chetnitsi && map.hasLayer(layerGroups.chetnitsi)) {
       // TODO:isntead of removing the layer when closing timeline, we should hide only the timeline-related features and keep the layer with the rest of the chetnitsi features, so that when user opens timeline again, we can just show the layer without having to recreate it and re-add all features to it
       // map.removeLayer(layerGroups.chetnitsi);
