@@ -885,7 +885,7 @@
         var isPaused = !botev.playing && botev._segIdx >= 0 &&
           botev.currentIndex < botev.points.length - 1;
         if (botev.playing) {
-          resetTimeline();
+          resetTimeline(true);
         } else if (isPaused || isFinished) {
           resetTimeline(true);
           collapseTimelinePanel();
