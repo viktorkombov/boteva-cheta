@@ -972,6 +972,8 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   font-style: italic;
 }
 
+.timeline-playing #chetnitsi-search { display: none; }
+
 /* ── Timeline panel ──────────────────────────────────────── */
 .timeline-panel {
   position: absolute;
