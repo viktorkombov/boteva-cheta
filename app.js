@@ -833,7 +833,7 @@
 
     /* Ghost: full route, always visible, very faint */
     botev.routeLayer = L.polyline(botev.routeCoords, {
-      color:       '#9b59b6',
+      color:       '#00472a',
       weight:      2,
       opacity:     0.18,
       dashArray:   '3 11',
@@ -843,7 +843,7 @@
 
     /* Animated drawing line using L.curve + stroke-dashoffset */
     botev.curveLayer = L.curve(buildCurvePath(botev.routeCoords), {
-      color:       '#6e2c91',
+      color:       '#003b1b',
       weight:      3.5,
       opacity:     0.9,
       dashArray:   '10 8',
