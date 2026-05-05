@@ -231,15 +231,78 @@
     }
   }
 
-  function openInfoPanel(feature, popupEntry) {
+  function setSidebarMode(mode, kicker) {
+    var sidebar  = document.getElementById('sidebar');
+    var kickerEl = document.getElementById('sidebar-kicker');
+    if (!sidebar) { return; }
+
+    document.body.classList.toggle('sidebar-chetnitsi', mode === 'chetnitsi');
+    sidebar.classList.remove('sidebar--chetnitsi');
+    if (mode === 'chetnitsi') {
+      sidebar.classList.add('sidebar--chetnitsi');
+    }
+
+    if (kickerEl) {
+      if (kicker) {
+        kickerEl.textContent = kicker;
+        kickerEl.hidden = false;
+      } else {
+        kickerEl.textContent = '';
+        kickerEl.hidden = true;
+      }
+    }
+  }
+
+  function renderTimelinePopup(feature, entry) {
+    var popupEl   = document.getElementById('timeline-popup');
+    var kickerEl  = document.getElementById('timeline-popup-kicker');
+    var titleEl   = document.getElementById('timeline-popup-title');
+    var contentEl = document.getElementById('timeline-popup-content');
+    var sourceEl  = document.getElementById('timeline-popup-source');
+    if (!popupEl || !titleEl || !contentEl || !sourceEl) { return; }
+
+    if (kickerEl) {
+      kickerEl.textContent = 'Маршрутна спирка';
+    }
+    titleEl.textContent = (entry && entry.title) ? entry.title : feature.properties.name;
+    contentEl.innerHTML = (entry && entry.html) ? entry.html : '';
+    sourceEl.textContent = (entry && entry.source_title) ? entry.source_title : '';
+    sourceEl.hidden = !sourceEl.textContent;
+    popupEl.hidden = false;
+    syncTimelineHeight();
+  }
+
+  function clearTimelinePopup() {
+    var popupEl   = document.getElementById('timeline-popup');
+    var titleEl   = document.getElementById('timeline-popup-title');
+    var contentEl = document.getElementById('timeline-popup-content');
+    var sourceEl  = document.getElementById('timeline-popup-source');
+    if (!popupEl || !titleEl || !contentEl || !sourceEl) { return; }
+
+    titleEl.textContent = '';
+    contentEl.innerHTML = '';
+    sourceEl.textContent = '';
+    sourceEl.hidden = true;
+    popupEl.hidden = true;
+    syncTimelineHeight();
+  }
+
+  function openInfoPanel(feature, popupEntry, options) {
+    options = options || {};
+    var sourceEl = document.getElementById('sidebar-source');
+    setSidebarMode(options.mode || 'default', options.kicker || '');
+
     document.getElementById('sidebar-title').textContent =
       (popupEntry && popupEntry.title) ? popupEntry.title : feature.properties.name;
 
     document.getElementById('sidebar-content').innerHTML =
       (popupEntry && popupEntry.html) ? popupEntry.html : '';
 
-    document.getElementById('sidebar-source').textContent =
-      (popupEntry && popupEntry.source_title) ? popupEntry.source_title : '';
+    if (sourceEl) {
+      sourceEl.textContent =
+        (popupEntry && popupEntry.source_title) ? popupEntry.source_title : '';
+      sourceEl.hidden = !sourceEl.textContent;
+    }
 
     document.getElementById('sidebar-content').scrollTop = 0;
     document.getElementById('sidebar').classList.add('is-open');
@@ -249,6 +312,7 @@
   function closeInfoPanel() {
     document.getElementById('sidebar').classList.remove('is-open');
     document.body.classList.remove('sidebar-open');
+    setSidebarMode('default', '');
   }
 
   function handleMarkerClick(feature) {
@@ -433,10 +497,22 @@
   }
 
   function initChetnitsiSearch() {
-    var input = document.getElementById('chetnitsi-search-input');
-    var list  = document.getElementById('chetnitsi-search-list');
-    var clear = document.getElementById('chetnitsi-search-clear');
-    if (!input || !list || !clear) { return; }
+    var shell  = document.getElementById('chetnitsi-search');
+    var toggle = document.getElementById('chetnitsi-search-toggle');
+    var input  = document.getElementById('chetnitsi-search-input');
+    var list   = document.getElementById('chetnitsi-search-list');
+    var clear  = document.getElementById('chetnitsi-search-clear');
+    if (!shell || !toggle || !input || !list || !clear) { return; }
+
+    function setSearchExpanded(expanded) {
+      shell.classList.toggle('is-collapsed', !expanded);
+      toggle.setAttribute('aria-expanded', String(expanded));
+      if (expanded) {
+        setTimeout(function () { input.focus(); }, 0);
+      } else {
+        list.hidden = true;
+      }
+    }
 
     function renderResults(q) {
       q = q.trim();
@@ -487,12 +563,27 @@
       list.hidden = false;
     }
 
-    input.addEventListener('input', function () { renderResults(input.value); });
+    toggle.addEventListener('click', function () {
+      setSearchExpanded(shell.classList.contains('is-collapsed'));
+    });
+
+    input.addEventListener('focus', function () {
+      setSearchExpanded(true);
+    });
+
+    input.addEventListener('input', function () {
+      setSearchExpanded(true);
+      renderResults(input.value);
+    });
 
     input.addEventListener('keydown', function (e) {
       if (e.key === 'Escape') {
         list.hidden = true;
-        input.blur();
+        if (!input.value.trim()) {
+          setSearchExpanded(false);
+        } else {
+          input.blur();
+        }
       } else if (e.key === 'Enter') {
         var first = list.querySelector('.chetnitsi-search-item');
         if (first) { first.dispatchEvent(new MouseEvent('mousedown')); }
@@ -501,7 +592,12 @@
 
     input.addEventListener('blur', function () {
       /* Small delay so a click on a result fires first */
-      setTimeout(function () { list.hidden = true; }, 150);
+      setTimeout(function () {
+        list.hidden = true;
+        if (!input.value.trim()) {
+          setSearchExpanded(false);
+        }
+      }, 150);
     });
 
     clear.addEventListener('click', function () {
@@ -509,6 +605,12 @@
       list.hidden  = true;
       clear.hidden = true;
       input.focus();
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!shell.contains(e.target) && !input.value.trim()) {
+        setSearchExpanded(false);
+      }
     });
   }
 
@@ -541,12 +643,14 @@
       entry = { title: feature.properties.name, summary: '', count: feature.properties.count || 0, members: [] };
     }
 
-    document.getElementById('sidebar-title').textContent = entry.title || feature.properties.name;
-    document.getElementById('sidebar-content').innerHTML = renderChetnitsiContent(entry);
-    document.getElementById('sidebar-source').textContent = entry.source_title || '';
-    document.getElementById('sidebar-content').scrollTop = 0;
-    document.getElementById('sidebar').classList.add('is-open');
-    document.body.classList.add('sidebar-open');
+    openInfoPanel(feature, {
+      title: entry.title || feature.properties.name,
+      html: renderChetnitsiContent(entry),
+      source_title: entry.source_title || ''
+    }, {
+      mode: 'chetnitsi',
+      kicker: 'Ботеви четници'
+    });
 
     if (!skipPan) {
       map.panTo(L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]));
@@ -561,27 +665,40 @@
     if (entry.summary) {
       html += '<p class="chetnitsi-summary">' + escapeHtml(entry.summary) + '</p>';
     }
+    html += '<div class="chetnitsi-count-row">';
     html += '<p class="chetnitsi-count">Общо: <strong>' + count + '</strong> четници</p>';
+    html += '<span class="chetnitsi-count-chip">Родни места</span>';
+    html += '</div>';
 
     if (members.length) {
+      html += '<div class="chetnitsi-members-table">';
+      html += '<div class="chetnitsi-members-head">';
+      html += '<span class="chetnitsi-members-col chetnitsi-members-col--name">Четник</span>';
+      html += '<span class="chetnitsi-members-col chetnitsi-members-col--years">Години</span>';
+      html += '<span class="chetnitsi-members-col chetnitsi-members-col--role">Роля и бележка</span>';
+      html += '</div>';
       html += '<ul class="chetnitsi-members">';
       members.forEach(function (m) {
         html += '<li class="chetnitsi-member-card">';
-        html += '<div class="chetnitsi-member-head">';
+        html += '<div class="chetnitsi-member-name-wrap">';
         html += '<span class="chetnitsi-member-name">' + escapeHtml(m.name || '') + '</span>';
-        if (m.years) {
-          html += '<span class="chetnitsi-member-years">' + escapeHtml(m.years) + '</span>';
-        }
         html += '</div>';
+        html += '<div class="chetnitsi-member-years">' + escapeHtml(m.years || '—') + '</div>';
+        html += '<div class="chetnitsi-member-meta">';
         if (m.role) {
           html += '<div class="chetnitsi-member-role">' + escapeHtml(m.role) + '</div>';
         }
         if (m.info) {
           html += '<div class="chetnitsi-member-info">' + escapeHtml(m.info) + '</div>';
         }
+        if (!m.role && !m.info) {
+          html += '<div class="chetnitsi-member-info chetnitsi-member-info--empty">—</div>';
+        }
+        html += '</div>';
         html += '</li>';
       });
       html += '</ul>';
+      html += '</div>';
     }
 
     html += '</div>';
@@ -600,6 +717,18 @@
   /* ============================================================
      Botev timeline
      ============================================================ */
+
+  function syncTimelineHeight() {
+    var panel = document.getElementById('timeline');
+    if (!panel) { return; }
+
+    if (window.innerWidth <= 1200 && !panel.hidden) {
+      var h = panel.offsetHeight;
+      document.documentElement.style.setProperty('--timeline-h', (h > 0 ? h : 0) + 'px');
+    } else if (window.innerWidth <= 1200) {
+      document.documentElement.style.setProperty('--timeline-h', '0px');
+    }
+  }
 
   function loadBotevTimelineData() {
     return Promise.all([
@@ -792,6 +921,7 @@
     } else {
       pauseTimeline();
       hideBotevLayers();
+      clearTimelinePopup();
       if (panel) { panel.hidden = true; }
       if (stub)  { stub.hidden  = true; }
     }
@@ -802,16 +932,6 @@
     if (!panel || !botev.points.length) { return; }
     panel.hidden = !layerOn.botev;
 
-    /* On tablet/mobile the sidebar bottom offset is driven by --timeline-h.
-       Measure the panel's actual rendered height and update the variable. */
-    function syncTimelineHeight() {
-      if (window.innerWidth <= 1200 && !panel.hidden) {
-        var h = panel.offsetHeight;
-        if (h > 0) {
-          document.documentElement.style.setProperty('--timeline-h', h + 'px');
-        }
-      }
-    }
     /* Run after first paint and on resize */
     requestAnimationFrame(function () { syncTimelineHeight(); });
     window.addEventListener('resize', syncTimelineHeight);
@@ -844,6 +964,15 @@
     var next = document.getElementById('timeline-next');
     if (next) {
       next.addEventListener('click', function () {
+        var isFinished = !botev.playing &&
+          botev.currentIndex >= 0 &&
+          botev.currentIndex >= botev.points.length - 1;
+        if (isFinished) {
+          /* "Finish" action: reset timeline and reveal chetnitsi layer. */
+          resetTimeline(true);
+          revealChetnitsiLayer(true);
+          return;
+        }
         if (botev.isAnimating) { return; }
         if (botev.playing) { pauseTimeline(); }
         var i = (botev.currentIndex < 0 ? 0 : botev.currentIndex + 1);
@@ -924,12 +1053,7 @@
     if (panel) { panel.hidden = false; }
     if (stub)  { stub.hidden  = true; }
     document.body.classList.remove('timeline-collapsed');
-    requestAnimationFrame(function () {
-      if (window.innerWidth <= 1200 && panel && !panel.hidden) {
-        var h = panel.offsetHeight;
-        if (h > 0) { document.documentElement.style.setProperty('--timeline-h', h + 'px'); }
-      }
-    });
+    requestAnimationFrame(function () { syncTimelineHeight(); });
   }
 
   function goToTimelineStep(index) {
@@ -949,7 +1073,8 @@
     var ll = L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
 
     var entry = botev.content[f.properties.popup_id] || { title: f.properties.name, html: '' };
-    openInfoPanel(f, entry);
+    closeInfoPanel();
+    renderTimelinePopup(f, entry);
 
     /* Lock navigation for the duration of the fly animation */
     botev.isAnimating = true;
@@ -1130,13 +1255,8 @@
     if (segIdx >= botev.points.length) {
       botev.playing = false;
       updateTimelineUI();
-      /* Remove lollipops — resting dots remain to mark the locations */
-      botev.pointMarkers.forEach(function (m) {
-        if (botev.pointsLayer && botev.pointsLayer.hasLayer(m)) {
-          botev.pointsLayer.removeLayer(m);
-        }
-      });
-      botev.revealedUpTo = -1;
+      /* Keep lollipops visible at auto-play end; they are cleared by
+         explicit finish/close/minimize actions. */
       revealChetnitsiLayer();
       return;
     }
@@ -1160,7 +1280,8 @@
     revealMarkersUpTo(segIdx);
     var f     = botev.points[segIdx];
     var entry = botev.content[f.properties.popup_id] || { title: f.properties.name, html: '' };
-    openInfoPanel(f, entry);
+    closeInfoPanel();
+    renderTimelinePopup(f, entry);
     var ll = L.latLng(f.geometry.coordinates[1], f.geometry.coordinates[0]);
     /* On mobile account for bottom panels so the point doesn't land behind them */
     var panTarget = ll;
@@ -1193,6 +1314,9 @@
     var isFinished = !botev.playing &&
       botev.currentIndex >= 0 &&
       botev.currentIndex >= botev.points.length - 1;
+    var isAtStart = !botev.playing && botev.currentIndex <= 0;
+    var isInitial = !botev.playing &&
+      botev.currentIndex < 0 && botev._segIdx < 0 && botev._drawnFraction <= 0;
     /* Paused mid-animation: line is somewhere between two points */
     var isPaused = !botev.playing && botev._segIdx >= 0 &&
       botev.currentIndex < botev.points.length - 1;
@@ -1209,7 +1333,11 @@
     var locked = botev.playing || botev.isAnimating;
 
     if (dateEl) { dateEl.textContent = f ? f.properties.date_label : ''; }
-    if (nameEl) { nameEl.textContent = f ? f.properties.name : 'Походът на Ботевата чета'; }
+    if (nameEl) {
+      /* Avoid duplicate titles with the popup title for active timeline steps. */
+      nameEl.hidden = !!f;
+      nameEl.textContent = 'Походът на Ботевата чета';
+    }
     if (slider) {
       slider.value    = botev.currentIndex >= 0 ? String(botev.currentIndex) : '0';
       slider.disabled = locked;
@@ -1226,8 +1354,13 @@
       stopBtn.textContent = isActive && !botev.playing ? '✖︎ Затвори' : '■︎ Спри';
       stopBtn.disabled = !isActive;
     }
-    if (prevBtn) { prevBtn.disabled = locked; }
-    if (nextBtn) { nextBtn.disabled = locked; }
+    if (prevBtn) { prevBtn.disabled = locked || isAtStart; }
+    if (nextBtn) {
+      if (isFinished)      { nextBtn.textContent = 'Приключи'; }
+      else if (isInitial)  { nextBtn.textContent = 'Започни'; }
+      else                 { nextBtn.textContent = 'Напред ›'; }
+      nextBtn.disabled = locked && !isFinished;
+    }
 
     /* Lock map interaction while timeline is playing */
     if (botev.playing) {
@@ -1311,39 +1444,54 @@
     updateTimelineUI();
   }
 
-  /* Auto-reveal the chetnitsi layer when the full route play finishes,
-     unless the user has explicitly toggled it off. */
-  function revealChetnitsiLayer() {
-    /* Zoom out to overview first, then reveal chetnitsi and collapse panel */
-    map.flyTo(INIT_CENTER, INIT_ZOOM, { duration: 1.4, easeLinearity: 0.35 });
-    map.once('moveend', function () {
-      if (chetnitsiUserDisabled) { return; }
+  /* Auto-reveal the chetnitsi layer when the full route play finishes.
+     When forceReveal=true (Finish action), reveal regardless of prior toggle. */
+  function revealChetnitsiLayer(forceReveal) {
+    forceReveal = !!forceReveal;
+    var didReveal = false;
+
+    function applyReveal() {
+      if (didReveal) { return; }
+      didReveal = true;
+
+      if (chetnitsiUserDisabled && !forceReveal) { return; }
+      if (forceReveal) { chetnitsiUserDisabled = false; }
+
       if (!layerOn.chetnitsi) {
         layerOn.chetnitsi = true;
         var cb = document.getElementById('toggle-chetnitsi');
         if (cb) { cb.checked = true; }
-
-        document.body.classList.add('chetnitsi-reveal');
-
-        if (layerGroups.chetnitsi && !map.hasLayer(layerGroups.chetnitsi)) {
-          layerGroups.chetnitsi.addTo(map);
-        } else if (!layerGroups.chetnitsi && allFeatures.chetnitsi.length) {
-          layerGroups.chetnitsi = createChetnitsiLayer(allFeatures.chetnitsi);
-          layerGroups.chetnitsi.addTo(map);
-        }
-
-        setTimeout(function () {
-          document.body.classList.remove('chetnitsi-reveal');
-        }, 900);
       }
-    });
+
+      document.body.classList.add('chetnitsi-reveal');
+
+      if (layerGroups.chetnitsi && !map.hasLayer(layerGroups.chetnitsi)) {
+        layerGroups.chetnitsi.addTo(map);
+      } else if (!layerGroups.chetnitsi && allFeatures.chetnitsi.length) {
+        layerGroups.chetnitsi = createChetnitsiLayer(allFeatures.chetnitsi);
+        layerGroups.chetnitsi.addTo(map);
+      }
+
+      setTimeout(function () {
+        document.body.classList.remove('chetnitsi-reveal');
+      }, 900);
+    }
+
+    /* Zoom out to overview first, then reveal chetnitsi and collapse panel */
+    map.flyTo(INIT_CENTER, INIT_ZOOM, { duration: 1.4, easeLinearity: 0.35 });
+    map.once('moveend', applyReveal);
+    /* Fallback for cases where moveend doesn't fire (or is swallowed). */
+    setTimeout(applyReveal, 1700);
   }
 
   function resetTimeline(keepChetnitsi) {
     cancelAnimation();
     botev.playing      = false;
+    botev.isAnimating  = false;
     botev.currentIndex = -1;
     botev._segIdx      = -1;
+
+    clearTimelinePopup();
 
     /* Close the info sidebar so the map is unobstructed when playback restarts */
     closeInfoPanel();
@@ -1377,6 +1525,7 @@
 
   function restartTimeline() {
     resetTimeline();
+    expandTimelinePanel();
     /* Wait for the fly to finish, then auto-play */
     setTimeout(function () { playTimeline(); }, 1300);
   }
