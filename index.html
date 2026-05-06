@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Априлско въстание 1876</title>
+  <title>Походът на Ботевата чета - 1876</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link
     href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
@@ -24,6 +24,69 @@
 </head>
 
 <body>
+
+  <!-- ── Top navbar ─────────────────────────────────────────── -->
+  <nav class="app-nav" role="navigation" aria-label="Навигация">
+    <div class="app-nav-brand">
+      <span class="app-nav-title">Походът на Ботевата чета <span class="app-nav-year">1876</span></span>
+    </div>
+    <div class="app-nav-actions">
+      <!-- Participant search -->
+      <button class="app-nav-btn" id="nav-search-btn" type="button" aria-label="Търси четник">
+        <svg class="app-nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <span class="app-nav-btn-label">Търси</span>
+      </button>
+      <!-- Show timeline panel -->
+      <button class="app-nav-btn app-nav-btn--play" id="nav-play-btn" type="button" aria-label="Покажи похода">
+        <svg class="app-nav-btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10-6.5z"/></svg>
+        <span class="app-nav-btn-label">Поход</span>
+      </button>
+      <!-- Data / info modal -->
+      <button class="app-nav-btn app-nav-btn--data" id="nav-data-btn" type="button" aria-label="За данните и проекта">
+        <svg class="app-nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        <span class="app-nav-btn-label">Данни</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- ── Search drawer ────────────────────────────────────── -->
+  <div id="nav-search-drawer" class="nav-search-drawer" hidden>
+    <div class="nav-search-inner">
+      <svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="chetnitsi-search-input" class="chetnitsi-search-input"
+             placeholder="Търси четник или населено място…" autocomplete="off" spellcheck="false" />
+      <button id="chetnitsi-search-clear" class="chetnitsi-search-clear"
+              type="button" aria-label="Изчисти" hidden>✕</button>
+    </div>
+    <ul id="chetnitsi-search-list" class="chetnitsi-search-list" hidden role="listbox"></ul>
+  </div>
+
+  <!-- ── Info / Data modal ───────────────────────────────────── -->
+  <div id="info-modal" class="info-modal" role="dialog" aria-modal="true" aria-label="Данни за картата" hidden>
+    <div class="info-modal-backdrop"></div>
+    <div class="info-modal-sheet">
+      <div class="info-modal-header">
+        <h2 class="info-modal-title">Данни за картата</h2>
+        <button class="info-modal-close" id="info-modal-close" type="button" aria-label="Затвори">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <div class="info-modal-nav">
+        <button class="info-modal-tab is-active" data-tab="route" type="button">Маршрутът</button>
+        <button class="info-modal-tab" data-tab="april" type="button">Походът на Ботевата чета</button>
+        <button class="info-modal-tab" data-tab="chetnitsi" type="button">Четници</button>
+        <button class="info-modal-tab" data-tab="bibliography" type="button">Литература</button>
+        <button class="info-modal-tab" data-tab="about" type="button">За проекта</button>
+      </div>
+
+      <div class="info-modal-body" id="info-modal-body">
+        <!-- Filled dynamically by info-modal.js -->
+      </div>
+    </div>
+  </div>
 
   <!-- Full-screen map -->
   <div id="map"></div>
@@ -67,22 +130,22 @@
             Окръзи
           </label>
           <label class="layer-toggle">
-            <input type="checkbox" id="toggle-okrazhen-centers" checked />
+            <input type="checkbox" id="toggle-okrazhen-centers" />
             <span class="toggle-swatch toggle-swatch--okrazhen"></span>
             Окръжни центрове
           </label>
           <label class="layer-toggle">
-            <input type="checkbox" id="toggle-points" checked />
+            <input type="checkbox" id="toggle-points" />
             <span class="toggle-swatch toggle-swatch--major"></span>
             Селища
           </label>
           <label class="layer-toggle">
-            <input type="checkbox" id="toggle-detachments" checked />
+            <input type="checkbox" id="toggle-detachments" />
             <span class="toggle-swatch toggle-swatch--detachment"></span>
             Чети
           </label>
           <label class="layer-toggle">
-            <input type="checkbox" id="toggle-apostolic" checked />
+            <input type="checkbox" id="toggle-apostolic" />
             <span class="toggle-swatch toggle-swatch--apostolic"></span>
             Апостолско събрание
           </label>
@@ -101,30 +164,6 @@
     </div>
     </div>
 
-    <!-- Participant search widget -->
-    <div id="chetnitsi-search" class="chetnitsi-search is-collapsed">
-      <button id="chetnitsi-search-toggle" class="chetnitsi-search-toggle" type="button" aria-expanded="false" aria-label="Отвори търсачката за четници">
-        <svg class="chetnitsi-search-toggle-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-             fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-      </button>
-      <div class="chetnitsi-search-row">
-        <input type="text" id="chetnitsi-search-input" class="chetnitsi-search-input"
-               placeholder="Търси четник…" autocomplete="off" spellcheck="false" />
-        <button id="chetnitsi-search-clear" class="chetnitsi-search-clear"
-                type="button" aria-label="Изчисти" hidden>✕</button>
-      </div>
-      <ul id="chetnitsi-search-list" class="chetnitsi-search-list" hidden role="listbox"></ul>
-    </div>
-
-    <!-- Timeline stub — shown when timeline panel is manually collapsed -->
-    <button id="timeline-stub" class="timeline-stub" hidden
-      type="button" aria-label="Покажи хронологията">
-      <svg class="timeline-stub-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-        <path d="M8 5.5v13l10-6.5z" />
-      </svg>
-    </button>
   </div><!-- /#panel-stack -->
 
   <!-- Botev march timeline panel -->
@@ -161,6 +200,8 @@
   <script src="./src/lib/leaflet.js"></script>
   <script src="./src/lib/leaflet.markercluster.js"></script>
   <script src="./src/lib/leaflet.curve.js"></script>
+  <script src="./src/js/info-modal.js"></script>
+  <script src="./src/js/navbar.js"></script>
   <script src="app.js"></script>
 
 </body>

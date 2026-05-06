@@ -1,5 +1,5 @@
 /* ============================================================
-   app.js — Априлско въстание 1876
+   app.js — Походът на Ботевата чета - 1876
    Static Leaflet map for GitHub Pages
    ============================================================ */
 
@@ -35,7 +35,7 @@
   var popupData   = {};
   var allFeatures = { points: [], detachments: [], districts: [], apostolic: [], okrazhenCenters: [], chetnitsi: [] };
   var layerGroups = { points: null, detachments: null, districts: null, apostolic: null, okrazhenCenters: null, chetnitsi: null };
-  var layerOn     = { points: true, detachments: true, districts: true, apostolic: true, okrazhenCenters: true, botev: true, chetnitsi: false };
+  var layerOn     = { points: false, detachments: false, districts: true, apostolic: false, okrazhenCenters: false, botev: true, chetnitsi: false };
 
   var chetnitsiContent      = {};
   var chetnitsiSearchIndex  = []; /* { name, years, placeId, placeName } */
@@ -83,6 +83,24 @@
       renderVisibleLayers();
       bindControls();
       initChetnitsiSearch();
+
+      /* Expose internals so info-modal.js chart clicks can navigate */
+      window._chetnitsiContent     = chetnitsiContent;
+      window._allFeaturesChetnitsi = allFeatures.chetnitsi;
+      window.map = map;
+      window._ensureChetnitsiLayer = function () {
+        if (!layerOn.chetnitsi) {
+          layerOn.chetnitsi     = true;
+          chetnitsiUserDisabled = false;
+          var cb = document.getElementById('toggle-chetnitsi');
+          if (cb) { cb.checked = true; }
+          renderVisibleLayers();
+        }
+      };
+      window._openChetnitsiFeature = function (feature) {
+        openChetnitsiPanel(feature, true);
+      };
+      window._expandTimelinePanel = expandTimelinePanel;
     });
   });
 
@@ -497,20 +515,22 @@
   }
 
   function initChetnitsiSearch() {
-    var shell  = document.getElementById('chetnitsi-search');
-    var toggle = document.getElementById('chetnitsi-search-toggle');
     var input  = document.getElementById('chetnitsi-search-input');
     var list   = document.getElementById('chetnitsi-search-list');
     var clear  = document.getElementById('chetnitsi-search-clear');
-    if (!shell || !toggle || !input || !list || !clear) { return; }
+    if (!input || !list || !clear) { return; }
 
-    function setSearchExpanded(expanded) {
-      shell.classList.toggle('is-collapsed', !expanded);
-      toggle.setAttribute('aria-expanded', String(expanded));
-      if (expanded) {
-        setTimeout(function () { input.focus(); }, 0);
-      } else {
-        list.hidden = true;
+    /* Close the nav search drawer (called when search collapses) */
+    function closeNavSearch() {
+      list.hidden = true;
+      var drawer = document.getElementById('nav-search-drawer');
+      var navBtn = document.getElementById('nav-search-btn');
+      if (drawer && drawer.classList.contains('is-open')) {
+        drawer.classList.remove('is-open');
+        if (navBtn) { navBtn.classList.remove('is-active'); }
+        setTimeout(function () {
+          if (!drawer.classList.contains('is-open')) { drawer.hidden = true; }
+        }, 220);
       }
     }
 
@@ -595,16 +615,11 @@
       list.hidden = false;
     }
 
-    toggle.addEventListener('click', function () {
-      setSearchExpanded(shell.classList.contains('is-collapsed'));
-    });
-
     input.addEventListener('focus', function () {
-      setSearchExpanded(true);
+      if (input.value.trim()) { renderResults(input.value); }
     });
 
     input.addEventListener('input', function () {
-      setSearchExpanded(true);
       renderResults(input.value);
     });
 
@@ -612,9 +627,10 @@
       if (e.key === 'Escape') {
         list.hidden = true;
         if (!input.value.trim()) {
-          setSearchExpanded(false);
+          closeNavSearch();
         } else {
-          input.blur();
+          input.value = '';
+          renderResults('');
         }
       } else if (e.key === 'Enter') {
         var first = list.querySelector('.chetnitsi-search-item');
@@ -627,7 +643,7 @@
       setTimeout(function () {
         list.hidden = true;
         if (!input.value.trim()) {
-          setSearchExpanded(false);
+          closeNavSearch();
         }
       }, 150);
     });
@@ -640,8 +656,13 @@
     });
 
     document.addEventListener('click', function (e) {
-      if (!shell.contains(e.target) && !input.value.trim()) {
-        setSearchExpanded(false);
+      var drawer = document.getElementById('nav-search-drawer');
+      var navBtn = document.getElementById('nav-search-btn');
+      /* Close if click is outside the drawer and the nav search button */
+      if (drawer && !drawer.contains(e.target) && (!navBtn || !navBtn.contains(e.target))) {
+        if (!input.value.trim()) {
+          closeNavSearch();
+        }
       }
     });
   }
@@ -954,15 +975,10 @@
   function setBotevVisible(on) {
     layerOn.botev = !!on;
     var panel = document.getElementById('timeline');
-    var stub  = document.getElementById('timeline-stub');
     if (on) {
       showBotevLayers();
-      if (botev.panelCollapsed) {
-        if (panel) { panel.hidden = true; }
-        if (stub)  { stub.hidden  = false; }
-      } else {
+      if (!botev.panelCollapsed) {
         if (panel) { panel.hidden = false; }
-        if (stub)  { stub.hidden  = true; }
       }
       // re-apply active class after markers re-attach
       setTimeout(updateTimelineUI, 0);
@@ -971,7 +987,6 @@
       hideBotevLayers();
       clearTimelinePopup();
       if (panel) { panel.hidden = true; }
-      if (stub)  { stub.hidden  = true; }
     }
   }
 
@@ -1087,9 +1102,7 @@
   function collapseTimelinePanel() {
     botev.panelCollapsed = true;
     var panel = document.getElementById('timeline');
-    var stub  = document.getElementById('timeline-stub');
     if (panel) { panel.hidden = true; }
-    if (stub)  { stub.hidden  = false; }
     document.body.classList.add('timeline-collapsed');
     document.documentElement.style.setProperty('--timeline-h', '0px');
   }
@@ -1097,9 +1110,7 @@
   function expandTimelinePanel() {
     botev.panelCollapsed = false;
     var panel = document.getElementById('timeline');
-    var stub  = document.getElementById('timeline-stub');
     if (panel) { panel.hidden = false; }
-    if (stub)  { stub.hidden  = true; }
     document.body.classList.remove('timeline-collapsed');
     requestAnimationFrame(function () { syncTimelineHeight(); });
   }
