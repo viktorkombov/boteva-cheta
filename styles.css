@@ -587,7 +587,7 @@ body.zoom-7 .marker-dot.district-center {
   #panel-stack {
     top: var(--gap);
     right: var(--gap);
-    width: min(210px, calc(100vw - 2 * var(--gap)));
+    width: min(250px, calc(100vw - 2 * var(--gap)));
     align-items: stretch;
     gap: 10px;
   }
@@ -618,6 +618,17 @@ body.zoom-7 .marker-dot.district-center {
   body.sidebar-open .sidebar:not(.sidebar--chetnitsi) {
     bottom: var(--gap);
     max-height: min(42vh, 300px);
+  }
+
+  .sidebar.sidebar--chetnitsi {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 100dvh;
+    max-height: none;
+    border-radius: 0;
   }
 }
 
@@ -691,7 +702,7 @@ body.zoom-7 .marker-dot.district-center {
   .chetnitsi-search {
     width: 100%;
     max-width: none;
-    min-height: 42px;
+    min-height: 36px;
   }
 
   .chetnitsi-search.is-collapsed {
@@ -700,13 +711,18 @@ body.zoom-7 .marker-dot.district-center {
   }
 
   .chetnitsi-search-toggle {
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     border-radius: var(--radius-sm);
   }
 
+  .timeline-btn {
+    height: 36px;
+    padding: 0 2px;
+  }
+
   .chetnitsi-search-input {
-    height: 42px;
+    height: 36px;
   }
 
   .chetnitsi-search-row {
@@ -1126,6 +1142,14 @@ body.chetnitsi-reveal .chetnitsi-marker {
   opacity: 1;
 }
 
+.search-highlight {
+  background: rgba(157, 200, 175, 0.28);
+  color: var(--c-header);
+  border-radius: 2px;
+  padding: 0 1px;
+  font-style: normal;
+}
+
 /* ── Hide lollipops when timeline is collapsed ── */
 body.timeline-collapsed .botev-lm { display: none !important; }
 
@@ -1135,7 +1159,7 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   display: flex;
   align-items: center;
   gap: 0;
-  background: var(--c-panel-solid);
+  background: var(--c-panel);
   border: 1px solid var(--c-panel-border);
   border-radius: var(--radius);
   box-shadow: var(--shadow-soft);
@@ -1144,6 +1168,10 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   max-width: 100%;
   min-height: 42px;
   overflow: visible;
+}
+
+.chetnitsi-search:not(.is-collapsed):focus-within {
+  border-color: rgba(157, 200, 175, 0.46);
 }
 
 .chetnitsi-search.is-collapsed {
@@ -1163,20 +1191,29 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   height: 42px;
   border: none;
   border-radius: var(--radius-sm);
-  background: #51685f;
-  color: #fff;
+  background: #33443c;
+  color: #d4e8dd;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
   box-shadow: none;
   transition: background 0.14s ease;
 }
 
 .chetnitsi-search-toggle:hover,
 .chetnitsi-search-toggle:focus-visible {
-  background: #5f796e;
+  background: #3d5148;
   outline: none;
+}
+
+/* When expanded: left corners align with container, right side connects to input */
+.chetnitsi-search:not(.is-collapsed) .chetnitsi-search-toggle {
+  border-radius: calc(var(--radius) - 1px) 0 0 calc(var(--radius) - 1px);
+  border-right: 1px solid var(--c-panel-border);
+  align-self: stretch;
+  height: auto;
 }
 
 .chetnitsi-search-toggle-icon {
@@ -1197,10 +1234,6 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   display: none;
 }
 
-.chetnitsi-search-icon {
-  display: none;
-}
-
 .chetnitsi-search-input {
   flex: 1;
   height: 42px;
@@ -1209,7 +1242,8 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   background: transparent;
   font-size: 0.82rem;
   font-weight: 600;
-  color: var(--c-text);
+  letter-spacing: -0.01em;
+  color: var(--c-header);
   min-width: 0;
   font-family: inherit;
 }
@@ -1612,8 +1646,8 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   }
 
   .timeline-btn {
-    font-size: 0.48rem;
-    padding: 6px 3px;
+    font-size: 0.55rem;
+    padding: 6px 2px;
   }
 
   .timeline-collapse-btn {
@@ -1693,8 +1727,8 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   }
 
   .timeline-btn {
-    font-size: 0.43rem;
-    padding: 5px 2px;
+    height: 34px;
+    padding: 0 1px;
     letter-spacing: 0.02em;
   }
 }

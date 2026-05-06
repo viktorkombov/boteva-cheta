@@ -524,10 +524,27 @@
       }
       clear.hidden = false;
       var ql      = q.toLowerCase();
-      var matches = chetnitsiSearchIndex.filter(function (item) {
+      var scored  = chetnitsiSearchIndex.filter(function (item) {
         return item.name.toLowerCase().indexOf(ql) !== -1 ||
                item.placeName.toLowerCase().indexOf(ql) !== -1;
-      }).slice(0, 10);
+      }).map(function (item) {
+        var nameLower = item.name.toLowerCase();
+        var score;
+        if (nameLower.startsWith(ql)) {
+          score = 0; /* name starts with query — highest priority */
+        } else if (nameLower.split(/[\s\-]+/).some(function (w) { return w.startsWith(ql); })) {
+          score = 1; /* any word in name starts with query */
+        } else if (nameLower.indexOf(ql) !== -1) {
+          score = 2; /* name contains query elsewhere */
+        } else {
+          score = 3; /* only place name matches */
+        }
+        return { item: item, score: score };
+      });
+      scored.sort(function (a, b) {
+        return a.score - b.score || a.item.name.localeCompare(b.item.name, 'bg');
+      });
+      var matches = scored.slice(0, 10).map(function (x) { return x.item; });
 
       if (!matches.length) {
         var noResult = document.createElement('li');
@@ -542,7 +559,20 @@
 
           var nameEl  = document.createElement('span');
           nameEl.className   = 'chetnitsi-search-item-name';
-          nameEl.textContent = item.name;
+          var nameLower2 = item.name.toLowerCase();
+          var matchIdx   = nameLower2.indexOf(ql);
+          if (matchIdx !== -1) {
+            if (matchIdx > 0) {
+              nameEl.appendChild(document.createTextNode(item.name.slice(0, matchIdx)));
+            }
+            var mark = document.createElement('mark');
+            mark.className = 'search-highlight';
+            mark.textContent = item.name.slice(matchIdx, matchIdx + ql.length);
+            nameEl.appendChild(mark);
+            nameEl.appendChild(document.createTextNode(item.name.slice(matchIdx + ql.length)));
+          } else {
+            nameEl.textContent = item.name;
+          }
 
           var placeEl = document.createElement('span');
           placeEl.className   = 'chetnitsi-search-item-place';
@@ -553,8 +583,10 @@
           li.addEventListener('mousedown', function (e) {
             /* mousedown fires before blur so we can act before input loses focus */
             e.preventDefault();
-            input.value = item.name;
+            input.value = '';
             list.hidden = true;
+            clear.hidden = true;
+            input.blur();
             selectSearchResult(item);
           });
           list.appendChild(li);
