@@ -666,10 +666,10 @@
     if (!feature) { return; }
     var ll = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
     map.flyTo(ll, 9, { duration: 1.2, easeLinearity: 0.35 });
-    openChetnitsiPanel(feature, true);
+    openChetnitsiPanel(feature, true, item.name);
   }
 
-  function openChetnitsiPanel(feature, skipPan) {
+  function openChetnitsiPanel(feature, skipPan, highlightName) {
     var entry = chetnitsiContent[feature.properties.popup_id];
     if (!entry) {
       entry = { title: feature.properties.name, summary: '', count: feature.properties.count || 0, members: [] };
@@ -684,6 +684,17 @@
       kicker: 'Ботеви четници'
     });
 
+    if (highlightName) {
+      setTimeout(function () {
+        var content = document.getElementById('sidebar-content');
+        var card = content && content.querySelector('[data-member-name="' + highlightName.replace(/"/g, '&quot;') + '"]');
+        if (card) {
+          card.classList.add('is-highlighted');
+          card.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }
+      }, 80);
+    }
+
     if (!skipPan) {
       map.panTo(L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]));
     }
@@ -692,6 +703,11 @@
   function renderChetnitsiContent(entry) {
     var members = Array.isArray(entry.members) ? entry.members : [];
     var count   = (typeof entry.count === 'number') ? entry.count : members.length;
+
+    /* Sort a copy alphabetically by name */
+    var sorted = members.slice().sort(function (a, b) {
+      return (a.name || '').localeCompare(b.name || '', 'bg');
+    });
 
     var html = '<div class="chetnitsi-content">';
     if (entry.summary) {
@@ -702,7 +718,7 @@
     html += '<span class="chetnitsi-count-chip">Родни места</span>';
     html += '</div>';
 
-    if (members.length) {
+    if (sorted.length) {
       html += '<div class="chetnitsi-members-table">';
       html += '<div class="chetnitsi-members-head">';
       html += '<span class="chetnitsi-members-col chetnitsi-members-col--name">Четник</span>';
@@ -710,8 +726,8 @@
       html += '<span class="chetnitsi-members-col chetnitsi-members-col--role">Роля и бележка</span>';
       html += '</div>';
       html += '<ul class="chetnitsi-members">';
-      members.forEach(function (m) {
-        html += '<li class="chetnitsi-member-card">';
+      sorted.forEach(function (m) {
+        html += '<li class="chetnitsi-member-card" data-member-name="' + escapeHtml(m.name || '') + '">';
         html += '<div class="chetnitsi-member-name-wrap">';
         html += '<span class="chetnitsi-member-name">' + escapeHtml(m.name || '') + '</span>';
         html += '</div>';

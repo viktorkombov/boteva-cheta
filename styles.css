@@ -959,6 +959,12 @@ body.chetnitsi-reveal .chetnitsi-marker {
   color: var(--c-text-muted);
 }
 
+.chetnitsi-member-card.is-highlighted {
+  background: rgba(78, 191, 115, 0.14);
+  border-color: rgba(78, 191, 115, 0.52);
+  box-shadow: 0 0 0 1px rgba(78, 191, 115, 0.22);
+}
+
 @media (max-width: 680px) {
   .chetnitsi-count-row {
     align-items: flex-start;
