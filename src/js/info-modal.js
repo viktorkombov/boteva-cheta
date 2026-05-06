@@ -68,6 +68,40 @@
         setActiveTab(tabId);
       });
     }
+
+    /* Mobile custom dropdown */
+    initTabDropdown();
+  }
+
+  function initTabDropdown() {
+    var trigger = document.getElementById('info-tab-dropdown-trigger');
+    var list    = document.getElementById('info-tab-dropdown-list');
+    if (!trigger || !list) { return; }
+
+    trigger.addEventListener('click', function (e) {
+      e.stopPropagation();
+      var isOpen = !list.hidden;
+      list.hidden = isOpen;
+      trigger.setAttribute('aria-expanded', String(!isOpen));
+    });
+
+    list.addEventListener('click', function (e) {
+      var item = e.target.closest('.info-tab-dropdown-item');
+      if (!item) { return; }
+      var tabId = item.dataset.tab;
+      if (!tabId) { return; }
+      list.hidden = true;
+      trigger.setAttribute('aria-expanded', 'false');
+      setActiveTab(tabId);
+    });
+
+    /* Close on outside click */
+    document.addEventListener('click', function () {
+      if (!list.hidden) {
+        list.hidden = true;
+        trigger.setAttribute('aria-expanded', 'false');
+      }
+    });
   }
 
   /* ── Data loading ────────────────────────────────────────── */
@@ -92,9 +126,18 @@
   /* ── Tab management ─────────────────────────────────────── */
   function setActiveTab(tabId) {
     currentTab = tabId;
+    /* Sync desktop tab buttons */
     var tabs = document.querySelectorAll('.info-modal-tab');
     tabs.forEach(function (t) {
       t.classList.toggle('is-active', t.dataset.tab === tabId);
+    });
+    /* Sync mobile dropdown */
+    var items = document.querySelectorAll('.info-tab-dropdown-item');
+    var label = document.getElementById('info-tab-dropdown-label');
+    items.forEach(function (item) {
+      var active = item.dataset.tab === tabId;
+      item.classList.toggle('is-selected', active);
+      if (active && label) { label.textContent = item.textContent; }
     });
     renderCurrentTab();
     var body = document.getElementById('info-modal-body');

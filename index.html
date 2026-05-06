@@ -81,6 +81,21 @@
         <button class="info-modal-tab" data-tab="bibliography" type="button">Литература</button>
         <button class="info-modal-tab" data-tab="about" type="button">За проекта</button>
       </div>
+      <div class="info-modal-nav-select">
+        <div class="info-tab-dropdown" id="info-tab-dropdown" role="listbox" aria-label="Избери раздел">
+          <button class="info-tab-dropdown-trigger" id="info-tab-dropdown-trigger" type="button" aria-haspopup="listbox" aria-expanded="false">
+            <span class="info-tab-dropdown-label" id="info-tab-dropdown-label">Маршрутът</span>
+            <svg class="info-tab-dropdown-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <ul class="info-tab-dropdown-list" id="info-tab-dropdown-list" role="listbox" hidden>
+            <li class="info-tab-dropdown-item is-selected" role="option" data-tab="route">Маршрутът</li>
+            <li class="info-tab-dropdown-item" role="option" data-tab="april">Походът на Ботевата чета</li>
+            <li class="info-tab-dropdown-item" role="option" data-tab="chetnitsi">Четници</li>
+            <li class="info-tab-dropdown-item" role="option" data-tab="bibliography">Литература</li>
+            <li class="info-tab-dropdown-item" role="option" data-tab="about">За проекта</li>
+          </ul>
+        </div>
+      </div>
 
       <div class="info-modal-body" id="info-modal-body">
         <!-- Filled dynamically by info-modal.js -->
