@@ -1390,7 +1390,6 @@ body.zoom-7 .marker-dot.district-center {
     height: calc(100dvh - var(--nav-h));
     max-height: none;
     border-radius: 0;
-    padding: 11px 40px 11px 14px;
   }
 
   .sidebar-content {
