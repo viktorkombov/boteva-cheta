@@ -2532,16 +2532,63 @@ body.timeline-collapsed .botev-lm { display: none !important; }
   .info-section { max-width: 100%; }
 }
 
-/* ── Wide desktop: broader timeline ────────────────────── */
-@media (min-width: 1300px) {
-  .timeline-panel {
-    width: min(700px, calc(100vw - 2 * var(--gap)));
-  }
-}
-
-/* ── Short viewport: compact timeline popup ─────────────── */
+/* ── Short viewport (≤800px tall): compact timeline ─────── */
 @media (max-height: 800px) {
+  .timeline-shell {
+    padding: 6px 8px;
+    gap: 5px;
+  }
+
+  .timeline-header {
+    gap: 6px;
+  }
+
+  .timeline-heading {
+    gap: 1px;
+  }
+
+  .timeline-date {
+    font-size: 0.68rem;
+  }
+
+  .timeline-name {
+    font-size: 0.82rem;
+  }
+
+  .timeline-popup {
+    padding: 6px 8px;
+    gap: 5px;
+  }
+
+  .timeline-popup-head {
+    gap: 2px;
+  }
+
+  .timeline-popup-kicker {
+    font-size: 0.54rem;
+  }
+
+  .timeline-popup-title {
+    font-size: 0.78rem;
+  }
+
   .timeline-popup-content {
-    max-height: 13vh;
+    max-height: 12vh;
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .timeline-popup-source {
+    display: none;
+  }
+
+  .timeline-progress {
+    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+
+  .timeline-btn {
+    padding: 5px 3px;
+    font-size: 0.52rem;
   }
 }
