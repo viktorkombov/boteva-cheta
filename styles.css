@@ -2533,7 +2533,11 @@ body.timeline-collapsed .botev-lm { display: none !important; }
 }
 
 /* ── Short viewport (≤800px tall): compact timeline ─────── */
-@media (max-height: 800px) {
+@media (max-height: 800px) and (min-width: 1200px) {
+  .timeline-panel {
+    width: min(1000px, calc(100vw - 2 * var(--gap)));
+  }
+
   .timeline-shell {
     padding: 6px 8px;
     gap: 5px;
