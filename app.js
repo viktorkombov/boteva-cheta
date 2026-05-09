@@ -128,7 +128,7 @@
 
     L.tileLayer(TILE_URL, {
       minZoom:     7,
-      maxZoom:     9,
+      maxZoom:     10,
       tms:         false,
       attribution: '© QGIS',
       /* ── Anti-flicker options ────────────────────────────────────

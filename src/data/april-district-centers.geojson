@@ -12,7 +12,7 @@
         "feature_type": "district_center",
         "style_group": "district-center",
         "min_zoom": 7,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Търново"
       },
       "geometry": {
@@ -34,7 +34,7 @@
         "feature_type": "district_center",
         "style_group": "district-center",
         "min_zoom": 7,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Сливен"
       },
       "geometry": {
@@ -56,7 +56,7 @@
         "feature_type": "district_center",
         "style_group": "district-center",
         "min_zoom": 7,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Враца"
       },
       "geometry": {
@@ -78,7 +78,7 @@
         "feature_type": "district_center",
         "style_group": "district-center",
         "min_zoom": 7,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Панагюрище"
       },
       "geometry": {

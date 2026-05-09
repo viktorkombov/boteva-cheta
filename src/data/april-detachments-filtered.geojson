@@ -11,7 +11,7 @@
         "feature_type": "detachment_point",
         "style_group": "detachment-point",
         "min_zoom": 8,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Разловци, Малешевско и Пиянечко"
       },
       "geometry": {
@@ -32,7 +32,7 @@
         "feature_type": "detachment_point",
         "style_group": "detachment-point",
         "min_zoom": 8,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Четата на Стоил войвода"
       },
       "geometry": {
@@ -53,7 +53,7 @@
         "feature_type": "detachment_point",
         "style_group": "detachment-point",
         "min_zoom": 8,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Четата на Цанко Дюстабанов"
       },
       "geometry": {
@@ -74,7 +74,7 @@
         "feature_type": "detachment_point",
         "style_group": "detachment-point",
         "min_zoom": 8,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Четата на Христо Ботев"
       },
       "geometry": {
@@ -95,7 +95,7 @@
         "feature_type": "detachment_point",
         "style_group": "detachment-point",
         "min_zoom": 8,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Четата на Сидер Войвода"
       },
       "geometry": {
@@ -116,7 +116,7 @@
         "feature_type": "detachment_point",
         "style_group": "detachment-point",
         "min_zoom": 8,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Четата на Таню Стоянов"
       },
       "geometry": {
@@ -137,7 +137,7 @@
         "feature_type": "detachment_point",
         "style_group": "detachment-point",
         "min_zoom": 8,
-        "max_zoom": 9,
+        "max_zoom": 10,
         "source_name": "Четата на Георги Бенковски"
       },
       "geometry": {
