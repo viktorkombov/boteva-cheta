@@ -17,6 +17,7 @@
     initFabSearch();
     initLegendBadge();
     initPillBadge();
+    initSearchBackdrop();
     initTooltip();
   });
 
@@ -196,15 +197,22 @@
   }
 
   function openSearchPanel(panel, btn) {
+    var backdrop = document.getElementById('search-backdrop');
     panel.hidden = false;
-    requestAnimationFrame(function () { panel.classList.add('is-open'); });
+    if (backdrop) { backdrop.hidden = false; }
+    requestAnimationFrame(function () {
+      panel.classList.add('is-open');
+      if (backdrop) { backdrop.classList.add('is-visible'); }
+    });
     if (btn) { btn.classList.add('is-active'); }
     var input = document.getElementById('chetnitsi-search-input');
     if (input) { setTimeout(function () { input.focus(); }, 50); }
   }
 
   function closeSearchPanel(panel, btn) {
+    var backdrop = document.getElementById('search-backdrop');
     panel.classList.remove('is-open');
+    if (backdrop) { backdrop.classList.remove('is-visible'); }
     if (btn) { btn.classList.remove('is-active'); }
     var input = document.getElementById('chetnitsi-search-input');
     if (input) { input.value = ''; }
@@ -213,8 +221,33 @@
     var clear = document.getElementById('chetnitsi-search-clear');
     if (clear) { clear.hidden = true; }
     setTimeout(function () {
-      if (!panel.classList.contains('is-open')) { panel.hidden = true; }
+      if (!panel.classList.contains('is-open')) {
+        panel.hidden = true;
+        if (backdrop) { backdrop.hidden = true; }
+      }
     }, 220);
+  }
+
+  function initSearchBackdrop() {
+    var backdrop = document.getElementById('search-backdrop');
+    var panel    = document.getElementById('search-panel');
+    if (!backdrop || !panel) { return; }
+
+    backdrop.addEventListener('click', function () {
+      if (!panel.classList.contains('is-open')) { return; }
+      var btn = document.querySelector('#pill-search-btn.is-active, #fab-search-btn.is-active');
+      closeSearchPanel(panel, btn);
+    });
+
+    /* Hide backdrop whenever the panel loses is-open (any code path) */
+    new MutationObserver(function () {
+      if (!panel.classList.contains('is-open')) {
+        backdrop.classList.remove('is-visible');
+        setTimeout(function () {
+          if (!panel.classList.contains('is-open')) { backdrop.hidden = true; }
+        }, 220);
+      }
+    }).observe(panel, { attributes: true, attributeFilter: ['class'] });
   }
 
   /* ── Badge helpers ──────────────────────────────────────── */

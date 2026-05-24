@@ -524,22 +524,30 @@ body.sidebar-open .app-pill {
 
 @media (max-width: 899px) {
   .search-panel {
-    top: auto;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    top: 12px;
+    left: 12px;
+    right: 12px;
     width: auto;
-    transform: translateY(100%);
-    border-radius: var(--radius) var(--radius) 0 0;
-    opacity: 1;
-    pointer-events: none;
-    transition: transform 0.25s cubic-bezier(0.32, 0.72, 0, 1);
-  }
-  .search-panel.is-open {
-    transform: translateY(0);
-    pointer-events: auto;
+    transform: none;
+    border-radius: var(--radius-sm);
+    z-index: 1062;
   }
   .search-panel .chetnitsi-search-list { max-height: 45vh; }
+}
+
+.search-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 1055;
+  opacity: 0;
+  transition: opacity 0.22s;
+}
+
+.search-backdrop.is-visible {
+  opacity: 1;
 }
 
 .timeline-playing .search-panel { display: none !important; }
