@@ -165,18 +165,22 @@ body {
   transform: translateX(-50%);
   z-index: 1050;
   width: 320px;
-  max-height: 36px;
-  overflow: hidden;
   background: var(--bg-overlay);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   border: 0.5px solid var(--border-mid);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+}
+
+.app-pill-inner {
+  overflow: hidden;
+  max-height: 36px;
+  border-radius: inherit;
   transition: max-height 0.25s cubic-bezier(0.32, 0.72, 0, 1);
 }
 
-.app-pill.is-open {
+.app-pill.is-open .app-pill-inner {
   max-height: 220px;
 }
 
@@ -275,6 +279,21 @@ body {
   background: var(--accent);
   border-color: var(--accent);
   color: var(--bg);
+}
+
+.app-pill-action.is-hinted {
+  background: var(--accent-light);
+  border-color: rgba(90, 65, 30, 0.25);
+}
+
+[data-theme="dark"] .app-pill-action.is-hinted {
+  border-color: rgba(196, 135, 42, 0.25);
+}
+
+.app-pill-action:disabled {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
 }
 
 .app-pill-action-icon {
@@ -387,6 +406,20 @@ body.sidebar-open .app-pill {
 .app-fab-action:last-child { border-bottom: none; }
 
 .app-fab-action:hover { background: var(--bg-surface); }
+
+.app-fab-action.is-hinted {
+  background: var(--accent-light);
+}
+
+.app-fab-action.is-hinted i {
+  color: var(--accent);
+}
+
+.app-fab-action:disabled {
+  opacity: 0.45;
+  cursor: default;
+  pointer-events: none;
+}
 
 .app-fab-action i {
   color: var(--text-secondary);
@@ -1275,7 +1308,57 @@ body.sidebar-open .leaflet-control-zoom {
   width: 100%;
   min-width: 232px;
   max-width: min(232px, calc(100vw - 2 * var(--gap)));
-  overflow: hidden;
+  position: relative;
+}
+
+/* ── Badge dot ───────────────────────────────────────────── */
+@keyframes badge-pop {
+  0%   { transform: translate(40%, -40%) scale(0); opacity: 0; }
+  65%  { transform: translate(40%, -40%) scale(1.35); }
+  100% { transform: translate(40%, -40%) scale(1); opacity: 1; }
+}
+
+.badge-dot {
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(40%, -40%);
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #D32F2F;
+  border: 2px solid var(--bg-surface);
+  z-index: 10;
+  cursor: default;
+  pointer-events: auto;
+}
+
+.badge-dot.badge-pop {
+  animation: badge-pop 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+
+/* ── Tooltip popup ───────────────────────────────────────── */
+.tooltip-popup {
+  position: fixed;
+  z-index: 99999;
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 0.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 5px 9px;
+  font-size: 0.65rem;
+  font-weight: 400;
+  line-height: 1.45;
+  pointer-events: none;
+  box-shadow: var(--shadow-soft);
+  max-width: 220px;
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+
+.tooltip-popup.is-visible {
+  opacity: 1;
 }
 
 .controls-toggle {
@@ -1294,7 +1377,13 @@ body.sidebar-open .leaflet-control-zoom {
   cursor: pointer;
   gap: 8px;
   border-bottom: 0.5px solid var(--border);
+  border-radius: var(--radius) var(--radius) 0 0;
   transition: background 0.14s;
+}
+
+.controls-panel.is-collapsed .controls-toggle {
+  border-radius: var(--radius);
+  border-bottom: none;
 }
 
 .controls-toggle:hover {
@@ -1359,6 +1448,11 @@ body.sidebar-open .leaflet-control-zoom {
 }
 
 .layer-toggle:hover {
+  background: var(--accent-light);
+  border-color: var(--border);
+}
+
+.layer-toggle.is-hinted {
   background: var(--accent-light);
   border-color: var(--border);
 }

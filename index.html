@@ -30,29 +30,32 @@
 
   <!-- ── App pill ────────────────────────────────────────────── -->
   <div id="app-pill" class="app-pill" role="navigation" aria-label="Навигация">
-    <button class="app-pill-header" id="app-pill-toggle" type="button" aria-expanded="false" aria-controls="app-pill-body">
-      <span class="app-pill-title">Походът на Ботевата чета <span class="app-pill-year">1876</span></span>
-      <i class="ti ti-chevron-down app-pill-chevron" aria-hidden="true"></i>
-    </button>
-    <div class="app-pill-body" id="app-pill-body" aria-hidden="true">
-      <div class="app-pill-divider"></div>
-      <div class="app-pill-actions">
-        <button class="app-pill-action" id="pill-play-btn" type="button" aria-label="Покажи похода">
-          <i class="ti ti-route app-pill-action-icon" aria-hidden="true"></i>
-          <span>Поход</span>
-        </button>
-        <button class="app-pill-action" id="pill-data-btn" type="button" aria-label="За данните и проекта">
-          <i class="ti ti-database app-pill-action-icon" aria-hidden="true"></i>
-          <span>Данни</span>
-        </button>
-        <button class="app-pill-action" id="pill-search-btn" type="button" aria-label="Търси четник">
-          <i class="ti ti-search app-pill-action-icon" aria-hidden="true"></i>
-          <span>Търси</span>
-        </button>
+    <div class="app-pill-inner">
+      <button class="app-pill-header" id="app-pill-toggle" type="button" aria-expanded="false" aria-controls="app-pill-body">
+        <span class="app-pill-title">Походът на Ботевата чета <span class="app-pill-year">1876</span></span>
+        <i class="ti ti-chevron-down app-pill-chevron" aria-hidden="true"></i>
+      </button>
+      <div class="app-pill-body" id="app-pill-body" aria-hidden="true">
+        <div class="app-pill-divider"></div>
+        <div class="app-pill-actions">
+          <button class="app-pill-action" id="pill-play-btn" type="button" aria-label="Покажи похода">
+            <i class="ti ti-route app-pill-action-icon" aria-hidden="true"></i>
+            <span>Поход</span>
+          </button>
+          <button class="app-pill-action" id="pill-data-btn" type="button" aria-label="За данните и проекта">
+            <i class="ti ti-database app-pill-action-icon" aria-hidden="true"></i>
+            <span>Данни</span>
+          </button>
+          <button class="app-pill-action" id="pill-search-btn" type="button" aria-label="Търси четник">
+            <i class="ti ti-search app-pill-action-icon" aria-hidden="true"></i>
+            <span>Търси</span>
+          </button>
+        </div>
+        <div class="app-pill-divider"></div>
+        <div class="app-pill-subtitle">Април – Май 1876 г.</div>
       </div>
-      <div class="app-pill-divider"></div>
-      <div class="app-pill-subtitle">Април – Май 1876 г.</div>
     </div>
+    <span class="badge-dot" id="pill-badge" data-tooltip="Активирайте 'Поход', за да проследите похода на четата" aria-hidden="true" hidden></span>
   </div>
 
   <!-- ── Mobile FAB ──────────────────────────────────────────── -->
@@ -61,6 +64,7 @@
       <i class="ti ti-menu-2 app-fab-icon app-fab-icon--open" aria-hidden="true"></i>
       <i class="ti ti-x app-fab-icon app-fab-icon--close" aria-hidden="true"></i>
     </button>
+    <span class="badge-dot" id="fab-badge" data-tooltip="Активирайте 'Поход', за да проследите похода на четата" aria-hidden="true" hidden></span>
     <div class="app-fab-menu" id="app-fab-menu" aria-hidden="true">
       <button class="app-fab-action" id="fab-play-btn" type="button" aria-label="Покажи похода">
         <i class="ti ti-route" aria-hidden="true"></i>
@@ -162,6 +166,7 @@
           <polyline points="6 9 12 15 18 9"/>
         </svg>
       </button>
+      <span class="badge-dot" id="legend-badge" data-tooltip="Активирайте слоя 'Четниците', за да видите родните им места" aria-hidden="true" hidden></span>
     <div class="controls-collapse">
       <div class="controls-collapse-inner">
         <div class="controls-body">
