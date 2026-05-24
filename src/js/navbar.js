@@ -353,6 +353,9 @@
       if (x + tip.offsetWidth > window.innerWidth - 8) {
         x = e.clientX - tip.offsetWidth - 10;
       }
+      if (y < 8) {
+        y = e.clientY + 16;
+      }
       tip.style.left = x + 'px';
       tip.style.top  = y + 'px';
     }

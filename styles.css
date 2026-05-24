@@ -1652,6 +1652,17 @@ body.sidebar-open .leaflet-control-zoom {
 
 .leaflet-control-zoom-out { border-bottom: none !important; }
 
+.leaflet-control-zoom a.leaflet-disabled {
+  opacity: 0.35 !important;
+  cursor: default !important;
+  pointer-events: none !important;
+}
+
+.leaflet-control-zoom a.leaflet-disabled:hover {
+  background: var(--bg-overlay) !important;
+  color: var(--text-secondary) !important;
+}
+
 /* ── Tablet/Mobile — bottom sheet sidebar ────────────────── */
 @media (max-width: 1200px) {
   :root { --timeline-h: 132px; }
