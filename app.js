@@ -362,6 +362,26 @@
         this.setAttribute('aria-expanded', String(!collapsed));
       });
 
+    initThemeToggle();
+
+
+    /* Keep Leaflet zoom controls flush below legend panel on mobile */
+    (function () {
+      var stack = document.getElementById('panel-stack');
+      if (!stack || !window.ResizeObserver) { return; }
+      function syncZoomPos() {
+        if (window.innerWidth <= 899) {
+          var bottom = stack.getBoundingClientRect().bottom;
+          document.documentElement.style.setProperty('--legend-h', (bottom + 4) + 'px');
+        } else {
+          document.documentElement.style.removeProperty('--legend-h');
+        }
+      }
+      new ResizeObserver(syncZoomPos).observe(stack);
+      window.addEventListener('resize', syncZoomPos);
+      syncZoomPos();
+    })();
+
     document.getElementById('toggle-districts')
       .addEventListener('change', function (e) {
         layerOn.districts = e.target.checked;
@@ -514,22 +534,47 @@
     });
   }
 
+  function initThemeToggle() {
+    var btn = document.getElementById('theme-toggle-btn');
+    if (!btn) { return; }
+    function updateBtn() {
+      var dark  = document.documentElement.getAttribute('data-theme') === 'dark';
+      var icon  = btn.querySelector('.theme-icon');
+      var label = btn.querySelector('.theme-toggle-label');
+      if (icon)  { icon.className  = 'ti theme-icon ' + (dark ? 'ti-sun' : 'ti-moon'); }
+      if (label) { label.textContent = dark ? 'Светла тема' : 'Тъмна тема'; }
+    }
+    btn.addEventListener('click', function () {
+      var dark = document.documentElement.getAttribute('data-theme') === 'dark';
+      if (dark) {
+        document.documentElement.removeAttribute('data-theme');
+        try { localStorage.setItem('theme', 'light'); } catch (e) {}
+      } else {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        try { localStorage.setItem('theme', 'dark'); } catch (e) {}
+      }
+      updateBtn();
+    });
+    updateBtn();
+  }
+
   function initChetnitsiSearch() {
     var input  = document.getElementById('chetnitsi-search-input');
     var list   = document.getElementById('chetnitsi-search-list');
     var clear  = document.getElementById('chetnitsi-search-clear');
     if (!input || !list || !clear) { return; }
 
-    /* Close the nav search drawer (called when search collapses) */
+    /* Close the search panel (called when search collapses) */
     function closeNavSearch() {
       list.hidden = true;
-      var drawer = document.getElementById('nav-search-drawer');
-      var navBtn = document.getElementById('nav-search-btn');
-      if (drawer && drawer.classList.contains('is-open')) {
-        drawer.classList.remove('is-open');
+      var panel  = document.getElementById('search-panel');
+      var navBtn = document.getElementById('pill-search-btn') ||
+                   document.getElementById('fab-search-btn');
+      if (panel && panel.classList.contains('is-open')) {
+        panel.classList.remove('is-open');
         if (navBtn) { navBtn.classList.remove('is-active'); }
         setTimeout(function () {
-          if (!drawer.classList.contains('is-open')) { drawer.hidden = true; }
+          if (!panel.classList.contains('is-open')) { panel.hidden = true; }
         }, 220);
       }
     }
@@ -656,10 +701,12 @@
     });
 
     document.addEventListener('click', function (e) {
-      var drawer = document.getElementById('nav-search-drawer');
-      var navBtn = document.getElementById('nav-search-btn');
-      /* Close if click is outside the drawer and the nav search button */
-      if (drawer && !drawer.contains(e.target) && (!navBtn || !navBtn.contains(e.target))) {
+      var panel  = document.getElementById('search-panel');
+      var btn1   = document.getElementById('pill-search-btn');
+      var btn2   = document.getElementById('fab-search-btn');
+      if (panel && !panel.contains(e.target) &&
+          (!btn1 || !btn1.contains(e.target)) &&
+          (!btn2 || !btn2.contains(e.target))) {
         if (!input.value.trim()) {
           closeNavSearch();
         }

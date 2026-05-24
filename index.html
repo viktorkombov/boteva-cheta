@@ -10,8 +10,10 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500&display=swap"
     rel="stylesheet" />
+  <script>try{if(localStorage.getItem('theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
   <link rel="stylesheet" href="./src/lib/leaflet.css" />
   <link rel="stylesheet" href="./src/lib/MarkerCluster.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css" />
   <link rel="stylesheet" href="styles.css" />
 
   <!-- Google Analytics 4 -->
@@ -26,36 +28,59 @@
 
 <body>
 
-  <!-- ── Top navbar ─────────────────────────────────────────── -->
-  <nav class="app-nav" role="navigation" aria-label="Навигация">
-    <div class="app-nav-brand">
-      <span class="app-nav-title">Походът на Ботевата чета <span class="app-nav-year">1876</span></span>
+  <!-- ── App pill ────────────────────────────────────────────── -->
+  <div id="app-pill" class="app-pill" role="navigation" aria-label="Навигация">
+    <button class="app-pill-header" id="app-pill-toggle" type="button" aria-expanded="false" aria-controls="app-pill-body">
+      <span class="app-pill-title">Походът на Ботевата чета <span class="app-pill-year">1876</span></span>
+      <i class="ti ti-chevron-down app-pill-chevron" aria-hidden="true"></i>
+    </button>
+    <div class="app-pill-body" id="app-pill-body" aria-hidden="true">
+      <div class="app-pill-divider"></div>
+      <div class="app-pill-actions">
+        <button class="app-pill-action" id="pill-play-btn" type="button" aria-label="Покажи похода">
+          <i class="ti ti-route app-pill-action-icon" aria-hidden="true"></i>
+          <span>Поход</span>
+        </button>
+        <button class="app-pill-action" id="pill-data-btn" type="button" aria-label="За данните и проекта">
+          <i class="ti ti-database app-pill-action-icon" aria-hidden="true"></i>
+          <span>Данни</span>
+        </button>
+        <button class="app-pill-action" id="pill-search-btn" type="button" aria-label="Търси четник">
+          <i class="ti ti-search app-pill-action-icon" aria-hidden="true"></i>
+          <span>Търси</span>
+        </button>
+      </div>
+      <div class="app-pill-divider"></div>
+      <div class="app-pill-subtitle">Април – Май 1876 г.</div>
     </div>
-    <div class="app-nav-actions">
-      <!-- Participant search -->
-      <button class="app-nav-btn" id="nav-search-btn" type="button" aria-label="Търси четник">
-        <svg class="app-nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <span class="app-nav-btn-label">Търси</span>
-      </button>
-      <!-- Show timeline panel -->
-      <button class="app-nav-btn app-nav-btn--play" id="nav-play-btn" type="button" aria-label="Покажи похода">
-        <svg class="app-nav-btn-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10-6.5z"/></svg>
-        <span class="app-nav-btn-label">Поход</span>
-      </button>
-      <!-- Data / info modal -->
-      <button class="app-nav-btn app-nav-btn--data" id="nav-data-btn" type="button" aria-label="За данните и проекта">
-        <svg class="app-nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-        <span class="app-nav-btn-label">Данни</span>
-      </button>
-    </div>
-  </nav>
+  </div>
 
-  <!-- ── Search drawer ────────────────────────────────────── -->
-  <div id="nav-search-drawer" class="nav-search-drawer" hidden>
-    <div class="nav-search-inner">
-      <svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-      </svg>
+  <!-- ── Mobile FAB ──────────────────────────────────────────── -->
+  <div id="app-fab" class="app-fab" role="navigation" aria-label="Навигация">
+    <button class="app-fab-toggle" id="app-fab-toggle" type="button" aria-expanded="false" aria-label="Меню">
+      <i class="ti ti-menu-2 app-fab-icon app-fab-icon--open" aria-hidden="true"></i>
+      <i class="ti ti-x app-fab-icon app-fab-icon--close" aria-hidden="true"></i>
+    </button>
+    <div class="app-fab-menu" id="app-fab-menu" aria-hidden="true">
+      <button class="app-fab-action" id="fab-play-btn" type="button" aria-label="Покажи похода">
+        <i class="ti ti-route" aria-hidden="true"></i>
+        <span>Поход</span>
+      </button>
+      <button class="app-fab-action" id="fab-data-btn" type="button" aria-label="За данните и проекта">
+        <i class="ti ti-database" aria-hidden="true"></i>
+        <span>Данни</span>
+      </button>
+      <button class="app-fab-action" id="fab-search-btn" type="button" aria-label="Търси четник">
+        <i class="ti ti-search" aria-hidden="true"></i>
+        <span>Търси</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── Search panel ─────────────────────────────────────── -->
+  <div id="search-panel" class="search-panel" hidden>
+    <div class="search-panel-inner">
+      <i class="ti ti-search search-panel-icon" aria-hidden="true"></i>
       <input type="text" id="chetnitsi-search-input" class="chetnitsi-search-input"
              placeholder="Търси четник или населено място…" autocomplete="off" spellcheck="false" />
       <button id="chetnitsi-search-clear" class="chetnitsi-search-clear"
@@ -175,6 +200,12 @@
             <span class="toggle-swatch toggle-swatch--chetnitsi"></span>
             Ботеви четници по родни места
           </label>
+          <div class="theme-toggle-row">
+            <button class="theme-toggle-btn" id="theme-toggle-btn" type="button">
+              <i class="ti ti-moon theme-icon" aria-hidden="true"></i>
+              <span class="theme-toggle-label">Тъмна тема</span>
+            </button>
+          </div>
         </div>
       </div>
     </div>
