@@ -175,13 +175,13 @@
           '<div class="info-map-preview-label">Интерактивна карта на похода</div>' +
           '<div class="info-map-route-visual" aria-hidden="true">' +
             '<svg viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg">' +
-              '<path d="M30 90 C 60 80, 80 60, 120 50 S 180 40, 220 55 S 280 75, 310 60" stroke="rgba(157,200,175,0.7)" stroke-width="2.5" fill="none" stroke-dasharray="6 3"/>' +
-              '<circle cx="30" cy="90" r="5" fill="#9dc8af"/>' +
-              '<circle cx="120" cy="50" r="4" fill="#9dc8af" opacity="0.8"/>' +
-              '<circle cx="220" cy="55" r="4" fill="#9dc8af" opacity="0.8"/>' +
-              '<circle cx="310" cy="60" r="5" fill="#9dc8af"/>' +
-              '<text x="20" y="108" fill="rgba(157,200,175,0.6)" font-size="9" font-family="Manrope, sans-serif">Козлодуй</text>' +
-              '<text x="288" y="52" fill="rgba(157,200,175,0.6)" font-size="9" font-family="Manrope, sans-serif">Врачански Балкан</text>' +
+              '<path d="M30 90 C 60 80, 80 60, 120 50 S 180 40, 220 55 S 280 75, 310 60" stroke="rgba(59,94,26,0.55)" stroke-width="2.5" fill="none" stroke-dasharray="6 3"/>' +
+              '<circle cx="30" cy="90" r="5" fill="#3B5E1A"/>' +
+              '<circle cx="120" cy="50" r="4" fill="#3B5E1A" opacity="0.8"/>' +
+              '<circle cx="220" cy="55" r="4" fill="#3B5E1A" opacity="0.8"/>' +
+              '<circle cx="310" cy="60" r="5" fill="#3B5E1A"/>' +
+              '<text x="20" y="108" fill="rgba(90,65,30,0.55)" font-size="9" font-family="Inter, sans-serif">Козлодуй</text>' +
+              '<text x="288" y="52" fill="rgba(90,65,30,0.55)" font-size="9" font-family="Inter, sans-serif">Врачански Балкан</text>' +
             '</svg>' +
           '</div>' +
           '<div class="info-map-preview-cta">' +
@@ -377,9 +377,9 @@
       '<div class="about-card">' +
         '<div class="about-avatar" aria-hidden="true">' +
           '<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-            '<circle cx="28" cy="28" r="28" fill="rgba(81,104,95,0.4)"/>' +
-            '<circle cx="28" cy="22" r="9" fill="rgba(157,200,175,0.6)"/>' +
-            '<path d="M8 52c0-11 9-19 20-19s20 8 20 19" fill="rgba(157,200,175,0.35)"/>' +
+            '<circle cx="28" cy="28" r="28" fill="rgba(90,65,30,0.12)"/>' +
+            '<circle cx="28" cy="22" r="9" fill="rgba(92,61,14,0.45)"/>' +
+            '<path d="M8 52c0-11 9-19 20-19s20 8 20 19" fill="rgba(92,61,14,0.25)"/>' +
           '</svg>' +
         '</div>' +
         '<div class="about-text">' +

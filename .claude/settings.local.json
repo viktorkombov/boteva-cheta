@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(Get-ChildItem -Path \"d:\\\\projects\\\\boteva-cheta\" -Depth 1 | Format-Table Name, @{Name=\"Type\"; Expression={if \\($_.PSIsContainer\\) {\"DIR\"} else {\"FILE\"}}})",
+      "Bash(git restore *)",
+      "Bash(Remove-Item -Force src/js/controlbar.js, src/js/data.js, src/js/layers.js, src/js/map-init.js, src/js/search.js, src/js/state.js, src/js/timeline.js, src/js/ui.js, theme.css)"
+    ]
+  }
+}
