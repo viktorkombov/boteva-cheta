@@ -38,6 +38,7 @@
   var layerOn     = { points: false, detachments: false, districts: true, apostolic: false, okrazhenCenters: false, botev: true, chetnitsi: false };
 
   var chetnitsiContent      = {};
+  var activeChetnitsiId     = null;
   var chetnitsiSearchIndex  = []; /* { name, years, placeId, placeName } */
   var chetnitsiUserDisabled = false; /* becomes true only if user explicitly unchecks */
 
@@ -157,6 +158,7 @@
     map.on('zoomend', function () {
       renderVisibleLayers();
       document.body.classList.toggle('zoom-7', map.getZoom() === 7);
+      syncChetnitsiActive();
     });
 
     document.body.classList.toggle('zoom-7', map.getZoom() === 7);
@@ -331,6 +333,8 @@
     document.getElementById('sidebar').classList.remove('is-open');
     document.body.classList.remove('sidebar-open');
     setSidebarMode('default', '');
+    activeChetnitsiId = null;
+    syncChetnitsiActive();
   }
 
   function handleMarkerClick(feature) {
@@ -509,6 +513,7 @@
       popupAnchor: [0, -(size / 2 + 4)]
     });
     var m = L.marker(latlng, { icon: icon, title: feature.properties.name, _chetnitsiCount: count });
+    m._chetnitsiId = feature.properties.popup_id;
     m.on('click', function () { openChetnitsiPanel(feature); });
     return m;
   }
@@ -737,11 +742,25 @@
     openChetnitsiPanel(feature, true, item.name);
   }
 
+  function syncChetnitsiActive() {
+    if (!layerGroups.chetnitsi) { return; }
+    layerGroups.chetnitsi.getLayers().forEach(function (m) {
+      var el = m.getElement();
+      if (!el) { return; }
+      var dot = el.querySelector('.chetnitsi-marker');
+      if (dot) { dot.classList.toggle('is-active', m._chetnitsiId === activeChetnitsiId); }
+    });
+  }
+
   function openChetnitsiPanel(feature, skipPan, highlightName) {
     var entry = chetnitsiContent[feature.properties.popup_id];
     if (!entry) {
       entry = { title: feature.properties.name, summary: '', count: feature.properties.count || 0, members: [] };
     }
+
+    activeChetnitsiId = feature.properties.popup_id;
+    syncChetnitsiActive();
+    map.once('moveend', syncChetnitsiActive);
 
     openInfoPanel(feature, {
       title: entry.title || feature.properties.name,

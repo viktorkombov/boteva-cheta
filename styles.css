@@ -1854,6 +1854,17 @@ body.chetnitsi-reveal .chetnitsi-marker {
 
 .chetnitsi-marker:hover { transform: scale(1.05); }
 
+.chetnitsi-marker.is-active {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px var(--accent-light), 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.chetnitsi-marker.is-active .chetnitsi-marker-count {
+  color: var(--bg-surface);
+}
+
 .chetnitsi-marker-count {
   font-family: var(--font-ui);
   font-weight: 500;
