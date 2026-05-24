@@ -23,7 +23,9 @@
   --danger:         #7A2318;
 
   /* Layer colours */
-  --c-district:   #8A7A30;
+  --c-district:      #8A7A30;
+  --c-district-rgb:  138, 122, 48;
+  --c-navy-rgb:      42, 92, 114;
   --c-okrazhen:   #2e7a57;
   --c-red:        #993C1D;
   --c-apostolic:  #1a8f7d;
@@ -69,7 +71,9 @@
   --text-tag:       #C4872A;
   --danger:         #D44030;
 
-  --c-district:     #A89838;
+  --c-district:      #A89838;
+  --c-district-rgb:  168, 152, 56;
+  --c-navy-rgb:      58, 112, 144;
   --c-okrazhen:     #3A9A68;
   --c-red:          #C05030;
   --c-apostolic:    #22A898;
@@ -1484,6 +1488,8 @@ body.sidebar-open .leaflet-control-zoom {
   width: 10px;
   height: 10px;
   background: var(--c-district);
+  border: 1.5px solid var(--bg);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.18);
 }
 
 .toggle-swatch--okrazhen {
@@ -1496,7 +1502,10 @@ body.sidebar-open .leaflet-control-zoom {
 
 .toggle-swatch--detachment {
   background: var(--c-navy);
-  border-radius: 50%;
+  border-radius: 3px;
+  border: 1.5px solid rgba(255, 255, 255, 0.85);
+  transform: rotate(45deg);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
 .toggle-swatch--apostolic {
@@ -1569,20 +1578,30 @@ body.sidebar-open .leaflet-control-zoom {
 }
 
 /* ── Leaflet marker dots (via divIcon) ───────────────────── */
+@keyframes district-pulse {
+  0%   { box-shadow: 0 0 0 0    rgba(var(--c-district-rgb), 0.55); }
+  65%  { box-shadow: 0 0 0 10px rgba(var(--c-district-rgb), 0); }
+  100% { box-shadow: 0 0 0 0    rgba(var(--c-district-rgb), 0); }
+}
+
 .marker-dot {
   border-radius: 50%;
   border: 2px solid var(--bg);
   cursor: pointer;
-  transition: transform 0.14s ease;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.marker-dot:hover { transform: scale(1.08); }
+.marker-dot:hover { transform: scale(1.25); }
 
 .marker-dot.district-center {
   background: var(--c-district);
   border: 2px solid var(--bg);
-  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+  box-shadow: 0 0 0 0 rgba(var(--c-district-rgb), 0);
   position: relative;
+}
+
+body.zoom-7 .marker-dot.district-center {
+  animation: district-pulse 2.4s ease-out infinite;
 }
 
 .district-numeral {
@@ -1617,11 +1636,13 @@ body.sidebar-open .leaflet-control-zoom {
 
 .marker-dot.detachment-point {
   background: var(--c-navy);
-  border-radius: 50%;
-  border: 2px solid var(--bg);
+  border-radius: 3px;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  transform: rotate(45deg);
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.35);
 }
 
-.marker-dot.detachment-point:hover { transform: scale(1.12); }
+.marker-dot.detachment-point:hover { transform: rotate(45deg) scale(1.2); }
 
 /* ── Leaflet overrides ───────────────────────────────────── */
 .leaflet-div-icon { background: transparent; border: none; }
