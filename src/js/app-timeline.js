@@ -587,6 +587,9 @@ function revealChetnitsiLayer(forceReveal) {
       var cb = document.getElementById('toggle-chetnitsi');
       if (cb) { cb.checked = true; }
     }
+    var legendBadge = document.getElementById('legend-badge');
+    if (legendBadge) { legendBadge.hidden = true; legendBadge.classList.remove('badge-pop'); }
+
     document.body.classList.add('chetnitsi-reveal');
     if (layerGroups.chetnitsi && !map.hasLayer(layerGroups.chetnitsi)) {
       layerGroups.chetnitsi.addTo(map);
