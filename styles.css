@@ -24,14 +24,12 @@
 
   /* Layer colours */
   --c-district:      #8A7A30;
-  --c-district-rgb:  138, 122, 48;
-  --c-navy-rgb:      42, 92, 114;
   --c-okrazhen:   #2e7a57;
   --c-red:        #993C1D;
   --c-apostolic:  #1a8f7d;
   --c-navy:       #2a5c72;
-  --c-botev:      #3B5E1A;
-  --c-chetnitsi:  #5C3D0E;
+  --c-botev:      #67963b;
+  --c-chetnitsi:  #236848;
 
   /* Legacy aliases kept for any inline JS references */
   --c-bg:           var(--bg);
@@ -72,14 +70,12 @@
   --danger:         #D44030;
 
   --c-district:      #A89838;
-  --c-district-rgb:  168, 152, 56;
-  --c-navy-rgb:      58, 112, 144;
   --c-okrazhen:     #3A9A68;
   --c-red:          #C05030;
   --c-apostolic:    #22A898;
   --c-navy:         #3A7090;
   --c-botev:        #6AA032;
-  --c-chetnitsi:    #C4872A;
+  --c-chetnitsi:    #1A6B44;
 
   --c-scrollbar:    rgba(220, 185, 130, 0.20);
   --shadow:         0 2px 10px rgba(0, 0, 0, 0.45);
@@ -175,6 +171,7 @@ body {
   border: 0.5px solid var(--border-mid);
   border-radius: var(--radius);
   box-shadow: var(--shadow);
+  transition: left 0.28s ease;
 }
 
 .app-pill-inner {
@@ -316,6 +313,10 @@ body {
 body.sidebar-open .app-pill {
   left: calc(var(--sidebar-w) + 2 * var(--gap));
   transform: none;
+}
+
+body.sidebar-open.sidebar-chetnitsi .app-pill {
+  left: calc(min(720px, 100vw - 2 * var(--gap)) + 2 * var(--gap));
 }
 
 
@@ -1579,9 +1580,9 @@ body.sidebar-open .leaflet-control-zoom {
 
 /* ── Leaflet marker dots (via divIcon) ───────────────────── */
 @keyframes district-pulse {
-  0%   { box-shadow: 0 0 0 0    rgba(var(--c-district-rgb), 0.55); }
-  65%  { box-shadow: 0 0 0 10px rgba(var(--c-district-rgb), 0); }
-  100% { box-shadow: 0 0 0 0    rgba(var(--c-district-rgb), 0); }
+  0%   { box-shadow: 0 0 0 0    color-mix(in srgb, var(--c-district) 55%, transparent); }
+  65%  { box-shadow: 0 0 0 10px transparent; }
+  100% { box-shadow: 0 0 0 0    transparent; }
 }
 
 .marker-dot.is-ghost {
@@ -1605,7 +1606,7 @@ body.sidebar-open .leaflet-control-zoom {
 .marker-dot.district-center {
   background: var(--c-district);
   border: 2px solid var(--bg);
-  box-shadow: 0 0 0 0 rgba(var(--c-district-rgb), 0);
+  box-shadow: 0 0 0 0 transparent;
   position: relative;
 }
 
@@ -1879,12 +1880,12 @@ body.chetnitsi-reveal .chetnitsi-marker {
 
 .leaflet-cluster-anim .leaflet-marker-icon,
 .leaflet-cluster-anim .leaflet-marker-shadow {
-  transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  transition: transform 0.1s ease-out, opacity 0.1s ease-out;
 }
 
 .chetnitsi-marker {
-  background: var(--accent-light);
-  border: 1.5px solid var(--accent);
+  background: var(--c-chetnitsi);
+  border: 1px solid rgba(0, 0, 0, 0.20);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -1893,24 +1894,23 @@ body.chetnitsi-reveal .chetnitsi-marker {
   transition: transform 0.12s ease;
 }
 
-.chetnitsi-marker:hover { transform: scale(1.05); }
-
-.chetnitsi-marker.is-active {
-  background: var(--accent);
-  border-color: var(--accent);
-  transform: scale(1.2);
-  box-shadow: 0 0 0 3px var(--accent-light), 0 2px 8px rgba(0,0,0,0.2);
+.chetnitsi-marker:hover {
+  transform: scale(1.08);
+  border-color: rgba(0, 0, 0, 0.40);
 }
 
-.chetnitsi-marker.is-active .chetnitsi-marker-count {
-  color: var(--bg-surface);
+.chetnitsi-marker.is-active {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--c-chetnitsi) 35%, transparent), 0 2px 8px rgba(0, 0, 0, 0.20);
+  border-color: rgba(0, 0, 0, 0.40);
 }
 
 .chetnitsi-marker-count {
   font-family: var(--font-ui);
-  font-weight: 500;
+  font-size: 9px;
+  font-weight: 400;
   line-height: 1;
-  color: var(--accent);
+  color: rgba(255, 255, 255, 0.92);
   pointer-events: none;
   user-select: none;
 }

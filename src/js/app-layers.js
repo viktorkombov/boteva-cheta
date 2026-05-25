@@ -86,16 +86,15 @@ function handleGhostMarkerClick(feature) {
 /* ── Chetnitsi marker helpers ─────────────────────────────── */
 
 function chetnitsiMarkerSize(count) {
-  return Math.min(60, Math.round(14 + 6 * Math.sqrt(Math.max(1, count))));
+  return Math.min(22, Math.max(16, Math.round(12 + 2.5 * Math.sqrt(Math.max(1, count)))));
 }
 
 function renderChetnitsiMarker(feature, latlng) {
   var count    = feature.properties.count || 0;
   var size     = chetnitsiMarkerSize(count);
-  var fontSize = Math.min(13, Math.max(9, Math.round(size * 0.45)));
   var icon = L.divIcon({
     className:   '',
-    html:        '<div class="chetnitsi-marker" style="width:' + size + 'px;height:' + size + 'px;"><span class="chetnitsi-marker-count" style="font-size:' + fontSize + 'px">' + count + '</span></div>',
+    html:        '<div class="chetnitsi-marker" style="width:' + size + 'px;height:' + size + 'px;"><span class="chetnitsi-marker-count">' + count + '</span></div>',
     iconSize:    [size, size],
     iconAnchor:  [size / 2, size / 2],
     popupAnchor: [0, -(size / 2 + 4)]
@@ -108,7 +107,7 @@ function renderChetnitsiMarker(feature, latlng) {
 
 function createChetnitsiLayer(features) {
   var cluster = L.markerClusterGroup({
-    disableClusteringAtZoom: 9,
+    disableClusteringAtZoom: 10,
     maxClusterRadius:        60,
     spiderfyOnMaxZoom:       false,
     showCoverageOnHover:     false,
@@ -118,11 +117,10 @@ function createChetnitsiLayer(features) {
       clusterObj.getAllChildMarkers().forEach(function (m) {
         total += m.options._chetnitsiCount || 0;
       });
-      var size     = chetnitsiMarkerSize(total);
-      var fontSize = Math.min(13, Math.max(9, Math.round(size * 0.45)));
+      var size = chetnitsiMarkerSize(total);
       return L.divIcon({
         className:   '',
-        html:        '<div class="chetnitsi-marker" style="width:' + size + 'px;height:' + size + 'px;"><span class="chetnitsi-marker-count" style="font-size:' + fontSize + 'px">' + total + '</span></div>',
+        html:        '<div class="chetnitsi-marker" style="width:' + size + 'px;height:' + size + 'px;"><span class="chetnitsi-marker-count">' + total + '</span></div>',
         iconSize:    [size, size],
         iconAnchor:  [size / 2, size / 2]
       });
@@ -135,8 +133,8 @@ function createChetnitsiLayer(features) {
   cluster.on('clusterclick', function (e) {
     map.flyToBounds(e.layer.getBounds(), {
       padding:       [48, 48],
-      maxZoom:       9,
-      duration:      0.6,
+      maxZoom:       e.layer._zoom + 1,
+      duration:      0.45,
       easeLinearity: 0.4
     });
   });
