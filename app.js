@@ -34,7 +34,7 @@
   var map;
   var popupData   = {};
   var allFeatures = { points: [], detachments: [], districts: [], apostolic: [], okrazhenCenters: [], chetnitsi: [] };
-  var layerGroups = { points: null, detachments: null, districts: null, apostolic: null, okrazhenCenters: null, chetnitsi: null };
+  var layerGroups = { points: null, detachments: null, districts: null, apostolic: null, okrazhenCenters: null, chetnitsi: null, ghost: null };
   var layerOn     = { points: false, detachments: false, districts: true, apostolic: false, okrazhenCenters: false, botev: true, chetnitsi: false };
 
   var chetnitsiContent      = {};
@@ -186,6 +186,11 @@
     return zoom >= p.min_zoom && zoom <= p.max_zoom;
   }
 
+  function isFeatureGhost(feature, zoom) {
+    var minZoom = feature.properties.min_zoom;
+    return typeof minZoom === 'number' && zoom < minZoom;
+  }
+
   function createMarkerIcon(feature) {
     var sg    = feature.properties.style_group;
     var size  = MARKER_SIZE[sg] || 10;
@@ -200,6 +205,39 @@
       iconAnchor:  [size / 2, size / 2],
       popupAnchor: [0, -(size / 2 + 4)]
     });
+  }
+
+  function createGhostMarkerIcon(feature) {
+    var sg   = feature.properties.style_group || '';
+    var size = Math.max(6, Math.round((MARKER_SIZE[sg] || 10) * 0.6));
+    var inner = feature.properties.numeral
+      ? '<span class="district-numeral">' + feature.properties.numeral + '</span>'
+      : '';
+    return L.divIcon({
+      className:   '',
+      html:        '<div class="marker-dot ' + sg + ' is-ghost" style="width:' + size + 'px;height:' + size + 'px;">' + inner + '</div>',
+      iconSize:    [size, size],
+      iconAnchor:  [size / 2, size / 2]
+    });
+  }
+
+  function createGhostMarkerLayer(features) {
+    var markers = features.map(function (f) {
+      var m = L.marker(
+        [f.geometry.coordinates[1], f.geometry.coordinates[0]],
+        { icon: createGhostMarkerIcon(f), title: f.properties.name }
+      );
+      m.on('click', function () { handleGhostMarkerClick(f); });
+      return m;
+    });
+    return L.layerGroup(markers);
+  }
+
+  function handleGhostMarkerClick(feature) {
+    var minZoom = feature.properties.min_zoom || 8;
+    var latlng  = L.latLng(feature.geometry.coordinates[1], feature.geometry.coordinates[0]);
+    map.flyTo(latlng, minZoom, { duration: 1.0, easeLinearity: 0.35 });
+    map.once('moveend', function () { handleMarkerClick(feature); });
   }
 
   function createMarkerLayer(features) {
@@ -222,6 +260,7 @@
     if (layerGroups.apostolic)      { map.removeLayer(layerGroups.apostolic); }
     if (layerGroups.okrazhenCenters){ map.removeLayer(layerGroups.okrazhenCenters); }
     if (layerGroups.districts)      { map.removeLayer(layerGroups.districts); }
+    if (layerGroups.ghost)          { map.removeLayer(layerGroups.ghost); }
 
     var vis = function (key) {
       return layerOn[key]
@@ -234,6 +273,16 @@
     layerGroups.apostolic       = createMarkerLayer(vis('apostolic')).addTo(map);
     layerGroups.okrazhenCenters = createMarkerLayer(vis('okrazhenCenters')).addTo(map);
     layerGroups.districts       = createMarkerLayer(vis('districts')).addTo(map);
+
+    var ghostFeatures = [];
+    ['points', 'detachments', 'apostolic', 'okrazhenCenters', 'districts'].forEach(function (key) {
+      if (layerOn[key]) {
+        allFeatures[key].forEach(function (f) {
+          if (isFeatureGhost(f, zoom)) { ghostFeatures.push(f); }
+        });
+      }
+    });
+    layerGroups.ghost = createGhostMarkerLayer(ghostFeatures).addTo(map);
 
     /* Chetnitsi cluster is NEVER destroyed on zoom — markercluster handles
        zoom-based clustering internally. We only create it once (when data

@@ -1584,6 +1584,15 @@ body.sidebar-open .leaflet-control-zoom {
   100% { box-shadow: 0 0 0 0    rgba(var(--c-district-rgb), 0); }
 }
 
+.marker-dot.is-ghost {
+  opacity: 0.4;
+  cursor: pointer;
+  animation: none !important;
+}
+.marker-dot.is-ghost:hover {
+  opacity: 0.85;
+}
+
 .marker-dot {
   border-radius: 50%;
   border: 2px solid var(--bg);
