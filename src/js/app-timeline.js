@@ -119,14 +119,14 @@ function createBotevRouteLayer() {
   });
 
   botev.curveLayer = L.curve(buildCurvePath(botev.routeCoords), {
-    color:       '#3B5E1A',
-    weight:      3,
-    opacity:     0.85,
-    dashArray:   '10 8',
-    lineCap:     'round',
-    lineJoin:    'round',
-    fill:        false,
-    interactive: false,
+      color:       '#b80d16',
+      weight:      4,
+      opacity:     0.9,
+      dashArray:   '10 8',
+      lineCap:     'round',
+      lineJoin:    'round',
+      fill:        false,
+      interactive: false,
     className:   'botev-route-active'
   });
 
