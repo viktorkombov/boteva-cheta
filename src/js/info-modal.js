@@ -6,15 +6,15 @@
 (function () {
   'use strict';
 
-  var DATA_URL       = './src/data/info-modal-content.json';
-  var BIBLIO_URL     = './src/data/bibliography.json';
-  var CHETNITSI_URL  = './src/data/botev-chetnitsi-content.json';
+  var DATA_URL = './src/data/info-modal-content.json';
+  var BIBLIO_URL = './src/data/bibliography.json';
+  var CHETNITSI_URL = './src/data/botev-chetnitsi-content.json';
 
-  var modalContent  = null;
-  var biblio        = null;
+  var modalContent = null;
+  var biblio = null;
   var chetnitsiData = null;
-  var currentTab    = 'route';
-  var dataLoaded    = false;
+  var currentTab = 'route';
+  var dataLoaded = false;
 
   /* Public API — available immediately so navbar.js can call it */
   window.InfoModal = {
@@ -46,9 +46,9 @@
 
   /* ── Close handling ──────────────────────────────────────── */
   function bindModalClose() {
-    var closeBtn  = document.getElementById('info-modal-close');
-    var modal     = document.getElementById('info-modal');
-    var backdrop  = modal && modal.querySelector('.info-modal-backdrop');
+    var closeBtn = document.getElementById('info-modal-close');
+    var modal = document.getElementById('info-modal');
+    var backdrop = modal && modal.querySelector('.info-modal-backdrop');
 
     if (closeBtn) { closeBtn.addEventListener('click', function () { window.InfoModal.close(); }); }
     if (backdrop) { backdrop.addEventListener('click', function () { window.InfoModal.close(); }); }
@@ -75,7 +75,7 @@
 
   function initTabDropdown() {
     var trigger = document.getElementById('info-tab-dropdown-trigger');
-    var list    = document.getElementById('info-tab-dropdown-list');
+    var list = document.getElementById('info-tab-dropdown-list');
     if (!trigger || !list) { return; }
 
     trigger.addEventListener('click', function (e) {
@@ -111,10 +111,10 @@
     var p3 = fetch(CHETNITSI_URL).then(function (r) { return r.json(); });
 
     Promise.all([p1, p2, p3]).then(function (results) {
-      modalContent  = results[0];
-      biblio        = results[1];
+      modalContent = results[0];
+      biblio = results[1];
       chetnitsiData = results[2];
-      dataLoaded    = true;
+      dataLoaded = true;
       /* Render if modal is already open (user clicked fast) */
       var modal = document.getElementById('info-modal');
       if (modal && modal.classList.contains('is-open')) { renderCurrentTab(); }
@@ -152,12 +152,12 @@
       return;
     }
     switch (currentTab) {
-      case 'route':        body.innerHTML = renderRouteTab();        break;
-      case 'april':        body.innerHTML = renderAprilTab();        break;
-      case 'chetnitsi':    renderChetnitsiTab(body);                 break;
+      case 'route': body.innerHTML = renderRouteTab(); break;
+      case 'april': body.innerHTML = renderAprilTab(); break;
+      case 'chetnitsi': renderChetnitsiTab(body); break;
       case 'bibliography': body.innerHTML = renderBibliographyTab(); break;
-      case 'about':        body.innerHTML = renderAboutTab();        break;
-      default:             body.innerHTML = '';
+      case 'about': body.innerHTML = renderAboutTab(); break;
+      default: body.innerHTML = '';
     }
     if (currentTab === 'chetnitsi') { bindChartInteraction(); }
   }
@@ -171,47 +171,47 @@
       '<h3 class="info-section-title">' + esc(s.title) + '</h3>' +
       '<p class="info-section-body">' + esc(s.body) + '</p>' +
       '<div class="info-map-preview">' +
-        '<div class="info-map-preview-inner">' +
-          '<div class="info-map-preview-label">Интерактивна карта на похода</div>' +
-          '<div class="info-map-route-visual" aria-hidden="true">' +
-            '<svg viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg">' +
-              '<path d="M30 90 C 60 80, 80 60, 120 50 S 180 40, 220 55 S 280 75, 310 60" stroke="rgba(59,94,26,0.55)" stroke-width="2.5" fill="none" stroke-dasharray="6 3"/>' +
-              '<circle cx="30" cy="90" r="5" fill="#3B5E1A"/>' +
-              '<circle cx="120" cy="50" r="4" fill="#3B5E1A" opacity="0.8"/>' +
-              '<circle cx="220" cy="55" r="4" fill="#3B5E1A" opacity="0.8"/>' +
-              '<circle cx="310" cy="60" r="5" fill="#3B5E1A"/>' +
-              '<text x="20" y="108" fill="rgba(90,65,30,0.55)" font-size="9" font-family="Inter, sans-serif">Козлодуй</text>' +
-              '<text x="288" y="52" fill="rgba(90,65,30,0.55)" font-size="9" font-family="Inter, sans-serif">Врачански Балкан</text>' +
-            '</svg>' +
-          '</div>' +
-          '<div class="info-map-preview-cta">' +
-            '<p>Използвайте панела с времева линия в долната част на картата, за да проследите маршрута стъпка по стъпка.</p>' +
-          '</div>' +
-        '</div>' +
+      '<div class="info-map-preview-inner">' +
+      '<div class="info-map-preview-label">Интерактивна карта на похода</div>' +
+      '<div class="info-map-route-visual" aria-hidden="true">' +
+      '<svg viewBox="0 0 340 120" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M0 24 Q 25 19, 48 24 Q 62 29, 72 23" stroke="rgba(100,155,210,0.5)" stroke-width="4" fill="none" stroke-linecap="round"/>' +
+      '<text x="4" y="17" fill="rgba(80,130,180,0.65)" font-size="7" font-family="Inter,sans-serif">р. Дунав</text>' +
+      '<path d="M210 96 L248 54 L286 96 Z" fill="rgba(59,94,26,0.08)"/>' +
+      '<path d="M252 96 L288 38 L324 96 Z" fill="rgba(59,94,26,0.13)"/>' +
+      '<path d="M292 96 L318 52 L340 96 Z" fill="rgba(59,94,26,0.07)"/>' +
+      '<rect x="0" y="96" width="340" height="24" fill="rgba(59,94,26,0.04)"/>' +
+      '<path d="M48 26 C 58 46, 75 62, 115 66 S 175 63, 225 58 S 268 52, 288 44" stroke="#3B5E1A" stroke-width="2" fill="none" stroke-dasharray="7 3.5" stroke-opacity="0.65" stroke-linecap="round"/>' +
+      '<circle cx="48" cy="26" r="7" fill="rgba(59,94,26,0.15)" stroke="#3B5E1A" stroke-width="1.5" stroke-opacity="0.7"/>' +
+      '<circle cx="48" cy="26" r="3" fill="#3B5E1A"/>' +
+      '<circle cx="288" cy="44" r="7" fill="rgba(59,94,26,0.15)" stroke="#3B5E1A" stroke-width="1.5" stroke-opacity="0.7"/>' +
+      '<circle cx="288" cy="44" r="3" fill="#3B5E1A"/>' +
+      '<text x="30" y="45" fill="rgba(60,40,20,0.72)" font-size="8.5" font-family="Inter,sans-serif" font-weight="500">Козлодуй</text>' +
+      '<text x="248" y="37" fill="rgba(60,40,20,0.72)" font-size="8.5" font-family="Inter,sans-serif" font-weight="500">Вр. Балкан</text>' +
+      '</svg>' +
       '</div>' +
-    '</div>';
+      '<div class="info-map-preview-cta">' +
+      '<p>Използвайте панела с времева линия в долната част на картата, за да проследите маршрута стъпка по стъпка.</p>' +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
   }
 
   /* ── April tab ──────────────────────────────────────────── */
   function renderAprilTab() {
     var s = modalContent.sections.find(function (x) { return x.id === 'april'; });
     if (!s) { return ''; }
-    var layers = [
-      { icon: '■', color: 'var(--c-crimson)',   label: 'Окръзи — границите на революционните окръзи' },
-      { icon: '●', color: 'var(--c-okrazhen)',  label: 'Окръжни центрове — главните административни точки' },
-      { icon: '●', color: 'var(--c-red)',       label: 'Селища — местности, свързани с въстанието' },
-      { icon: '●', color: 'var(--c-navy)',      label: 'Чети — въстаническите чети и техните маршрути' },
-      { icon: '●', color: 'var(--c-apostolic)', label: 'Апостолско събрание — места на тайни срещи' }
-    ];
-    var layerHtml = layers.map(function (l) {
-      return '<li class="info-layer-item"><span class="info-layer-dot" style="background:' + l.color + '"></span><span>' + esc(l.label) + '</span></li>';
+    var layerHtml = (s.layers || []).map(function (l) {
+      var label = l.label + (l.description ? ' — ' + l.description : '');
+      return '<li class="info-layer-item"><span class="toggle-swatch toggle-swatch--' + esc(l.swatchClass) + '"></span><span>' + esc(label) + '</span></li>';
     }).join('');
     return '<div class="info-section">' +
-      '<div class="info-section-kicker"><span class="info-kicker-dot info-kicker-dot--april"></span>Походът на Ботевата чета · 1876</div>' +
+      '<div class="info-section-kicker"><span class="info-kicker-dot info-kicker-dot--april"></span>Априлско въстание · 1876</div>' +
       '<h3 class="info-section-title">' + esc(s.title) + '</h3>' +
       '<p class="info-section-body">' + esc(s.body) + '</p>' +
       '<ul class="info-layer-list">' + layerHtml + '</ul>' +
-    '</div>';
+      '</div>';
   }
 
   /* ── Chetnitsi tab (with chart) ─────────────────────────── */
@@ -233,11 +233,11 @@
       return '<li class="chart-bar-row" data-place-id="' + esc(p.id) + '" data-place-title="' + esc(p.title) + '" title="' + esc(p.title) + ': ' + p.count + ' четници">' +
         '<span class="chart-bar-label">' + esc(p.title) + '</span>' +
         '<div class="chart-bar-track">' +
-          '<div class="chart-bar-fill" style="--bar-pct:' + pct + '%" data-count="' + p.count + '">' +
-            '<span class="chart-bar-value">' + p.count + '</span>' +
-          '</div>' +
+        '<div class="chart-bar-fill" style="--bar-pct:' + pct + '%" data-count="' + p.count + '">' +
+        '<span class="chart-bar-value">' + p.count + '</span>' +
         '</div>' +
-      '</li>';
+        '</div>' +
+        '</li>';
     }).join('');
 
     body.innerHTML = '<div class="info-section">' +
@@ -245,13 +245,13 @@
       '<h3 class="info-section-title">' + esc(s.title) + '</h3>' +
       '<p class="info-section-body">' + esc(s.body) + '</p>' +
       '<div class="info-chart">' +
-        '<div class="info-chart-header">' +
-          '<h4 class="info-chart-title">Брой четници по населено място</h4>' +
-          '<p class="info-chart-subtitle">Топ 30 · Кликнете за навигация към картата</p>' +
-        '</div>' +
-        '<ul class="chart-bar-list">' + barsHtml + '</ul>' +
+      '<div class="info-chart-header">' +
+      '<h4 class="info-chart-title">Брой четници по населено място</h4>' +
+      '<p class="info-chart-subtitle">Топ 30 · Кликнете за навигация към картата</p>' +
       '</div>' +
-    '</div>';
+      '<ul class="chart-bar-list">' + barsHtml + '</ul>' +
+      '</div>' +
+      '</div>';
   }
 
   function bindChartInteraction() {
@@ -371,34 +371,34 @@
   function renderAboutTab() {
     var a = modalContent.about;
     var fb = a.social && a.social.facebook ? a.social.facebook : '';
-    var li = a.social && a.social.linkedin  ? a.social.linkedin  : '';
+    var li = a.social && a.social.linkedin ? a.social.linkedin : '';
     return '<div class="info-section info-section--about">' +
       '<h3 class="info-section-title">За проекта</h3>' +
       '<div class="about-card">' +
-        '<div class="about-avatar" aria-hidden="true">' +
-          '<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">' +
-            '<circle cx="28" cy="28" r="28" fill="rgba(90,65,30,0.12)"/>' +
-            '<circle cx="28" cy="22" r="9" fill="rgba(92,61,14,0.45)"/>' +
-            '<path d="M8 52c0-11 9-19 20-19s20 8 20 19" fill="rgba(92,61,14,0.25)"/>' +
-          '</svg>' +
-        '</div>' +
-        '<div class="about-text">' +
-          '<div class="about-name">' + esc(a.name) + '</div>' +
-          '<p class="about-bio">' + esc(a.bio) + '</p>' +
-          '<p class="about-conference">' + esc(a.conference) + '</p>' +
-          '<div class="about-social">' +
-            (fb ? '<a class="about-social-btn about-social-btn--fb" href="' + esc(fb) + '" target="_blank" rel="noopener noreferrer">' +
-              '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>' +
-              'Facebook' +
-            '</a>' : '') +
-            (li ? '<a class="about-social-btn about-social-btn--li" href="' + esc(li) + '" target="_blank" rel="noopener noreferrer">' +
-              '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>' +
-              'LinkedIn' +
-            '</a>' : '') +
-          '</div>' +
-        '</div>' +
+      '<div class="about-avatar" aria-hidden="true">' +
+      '<svg viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<circle cx="28" cy="28" r="28" fill="rgba(90,65,30,0.12)"/>' +
+      '<circle cx="28" cy="22" r="9" fill="rgba(92,61,14,0.45)"/>' +
+      '<path d="M8 52c0-11 9-19 20-19s20 8 20 19" fill="rgba(92,61,14,0.25)"/>' +
+      '</svg>' +
       '</div>' +
-    '</div>';
+      '<div class="about-text">' +
+      '<div class="about-name">' + esc(a.name) + '</div>' +
+      '<p class="about-bio">' + addLinks(a.bio) + '</p>' +
+      '<p class="about-conference">' + addLinks(a.conference) + '</p>' +
+      '<div class="about-social">' +
+      (fb ? '<a class="about-social-btn about-social-btn--fb" href="' + esc(fb) + '" target="_blank" rel="noopener noreferrer">' +
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>' +
+        'Facebook' +
+        '</a>' : '') +
+      (li ? '<a class="about-social-btn about-social-btn--li" href="' + esc(li) + '" target="_blank" rel="noopener noreferrer">' +
+        '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>' +
+        'LinkedIn' +
+        '</a>' : '') +
+      '</div>' +
+      '</div>' +
+      '</div>' +
+      '</div>';
   }
 
   /* ── Helpers ────────────────────────────────────────────── */
@@ -411,11 +411,18 @@
       .replace(/'/g, '&#39;');
   }
 
+  function addLinks(text) {
+    return text.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+    );
+  }
+
   /* Expose references so chart click navigation can reach app internals.
      app.js sets these after loading its data. */
-  window._chetnitsiContent      = null;
-  window._allFeaturesChetnitsi  = null;
-  window._ensureChetnitsiLayer  = null;
-  window._openChetnitsiFeature  = null;
+  window._chetnitsiContent = null;
+  window._allFeaturesChetnitsi = null;
+  window._ensureChetnitsiLayer = null;
+  window._openChetnitsiFeature = null;
 
 })();
