@@ -109,8 +109,12 @@ function buildRouteFractions() {
 function createBotevRouteLayer() {
   if (!botev.routeCoords.length) { return; }
 
+  var cs = getComputedStyle(document.documentElement);
+  var cBotev = cs.getPropertyValue('--c-botev').trim() || '#3B5E1A';
+  var cRoute = cs.getPropertyValue('--c-route-line').trim() || '#8B2020';
+
   botev.routeLayer = L.polyline(botev.routeCoords, {
-    color:       '#3B5E1A',
+    color:       cBotev,
     weight:      2,
     opacity:     0.18,
     dashArray:   '3 11',
@@ -119,7 +123,7 @@ function createBotevRouteLayer() {
   });
 
   botev.curveLayer = L.curve(buildCurvePath(botev.routeCoords), {
-      color:       '#b80d16',
+      color:       cRoute,
       weight:      4,
       opacity:     0.9,
       dashArray:   '10 8',

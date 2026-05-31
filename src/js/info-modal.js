@@ -166,6 +166,10 @@
   function renderRouteTab() {
     var s = modalContent.sections.find(function (x) { return x.id === 'route'; });
     if (!s) { return ''; }
+    var cs     = getComputedStyle(document.documentElement);
+    var cBotev = cs.getPropertyValue('--c-botev').trim() || '#3B5E1A';
+    var cRoute = cs.getPropertyValue('--c-route-line').trim() || '#8B2020';
+    var cText  = cs.getPropertyValue('--text-secondary').trim() || 'rgba(60,40,20,0.72)';
     return '<div class="info-section">' +
       '<div class="info-section-kicker"><span class="info-kicker-dot info-kicker-dot--botev"></span>Ботевата чета · 1876</div>' +
       '<h3 class="info-section-title">' + esc(s.title) + '</h3>' +
@@ -181,13 +185,13 @@
       '<path d="M252 96 L288 38 L324 96 Z" fill="rgba(59,94,26,0.13)"/>' +
       '<path d="M292 96 L318 52 L340 96 Z" fill="rgba(59,94,26,0.07)"/>' +
       '<rect x="0" y="96" width="340" height="24" fill="rgba(59,94,26,0.04)"/>' +
-      '<path d="M48 26 C 58 46, 75 62, 115 66 S 175 63, 225 58 S 268 52, 288 44" stroke="#3B5E1A" stroke-width="2" fill="none" stroke-dasharray="7 3.5" stroke-opacity="0.65" stroke-linecap="round"/>' +
-      '<circle cx="48" cy="26" r="7" fill="rgba(59,94,26,0.15)" stroke="#3B5E1A" stroke-width="1.5" stroke-opacity="0.7"/>' +
-      '<circle cx="48" cy="26" r="3" fill="#3B5E1A"/>' +
-      '<circle cx="288" cy="44" r="7" fill="rgba(59,94,26,0.15)" stroke="#3B5E1A" stroke-width="1.5" stroke-opacity="0.7"/>' +
-      '<circle cx="288" cy="44" r="3" fill="#3B5E1A"/>' +
-      '<text x="30" y="45" fill="rgba(60,40,20,0.72)" font-size="8.5" font-family="Inter,sans-serif" font-weight="500">Козлодуй</text>' +
-      '<text x="248" y="37" fill="rgba(60,40,20,0.72)" font-size="8.5" font-family="Inter,sans-serif" font-weight="500">Вр. Балкан</text>' +
+      '<path d="M48 26 C 58 46, 75 62, 115 66 S 175 63, 225 58 S 268 52, 288 44" stroke="' + cRoute + '" stroke-width="2" fill="none" stroke-dasharray="7 3.5" stroke-opacity="0.75" stroke-linecap="round"/>' +
+      '<circle cx="48" cy="26" r="7" fill="' + cBotev + '" fill-opacity="0.15" stroke="' + cBotev + '" stroke-width="1.5" stroke-opacity="0.7"/>' +
+      '<circle cx="48" cy="26" r="3" fill="' + cBotev + '"/>' +
+      '<circle cx="288" cy="44" r="7" fill="' + cBotev + '" fill-opacity="0.15" stroke="' + cBotev + '" stroke-width="1.5" stroke-opacity="0.7"/>' +
+      '<circle cx="288" cy="44" r="3" fill="' + cBotev + '"/>' +
+      '<text x="30" y="45" fill="' + cText + '" font-size="8.5" font-family="Inter,sans-serif" font-weight="500">Козлодуй</text>' +
+      '<text x="248" y="37" fill="' + cText + '" font-size="8.5" font-family="Inter,sans-serif" font-weight="500">Вр. Балкан</text>' +
       '</svg>' +
       '</div>' +
       '<div class="info-map-preview-cta">' +
