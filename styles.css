@@ -683,8 +683,15 @@ body.sidebar-open.sidebar-chetnitsi .app-pill {
   color: var(--accent);
 }
 
-/* Mobile tab custom dropdown — hidden on desktop */
+/* Mobile tab custom dropdown — hidden on desktop, visible on mobile */
 .info-modal-nav-select { display: none; }
+
+@media (max-width: 640px) {
+  .info-modal-nav { display: none; }
+  .info-modal-nav-select { display: block; padding: 10px 12px; border-bottom: 0.5px solid var(--border); }
+  .about-card { flex-direction: column; gap: 14px; }
+  .about-avatar { width: 44px; height: 44px; }
+}
 
 .info-tab-dropdown {
   position: relative;
@@ -789,7 +796,7 @@ body.sidebar-open.sidebar-chetnitsi .app-pill {
   font-size: 0.84rem;
 }
 
-.info-section { max-width: 680px; }
+.info-section { max-width: 100%; }
 
 .info-section-kicker {
   display: flex;
