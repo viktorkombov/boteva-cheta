@@ -6,7 +6,7 @@
 /* ── Design tokens ───────────────────────────────────────── */
 :root {
   --font-ui:      "Inter", system-ui, sans-serif;
-  --font-display: "Playfair Display", Georgia, serif;
+  --font-display: "Outfit", system-ui, sans-serif;
 
   /* Warm parchment palette */
   --bg:             #F7F3ED;
@@ -130,6 +130,11 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+button, [role="button"], [role="option"], label, select,
+input[type="checkbox"], input[type="radio"], input[type="range"] {
+  cursor: pointer;
 }
 
 html, body {
@@ -515,7 +520,7 @@ body.sidebar-open.sidebar-chetnitsi .app-pill {
 .search-panel .chetnitsi-search-item:last-child { border-bottom: none; }
 
 .search-panel .chetnitsi-search-item-name {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: 0.8125rem;
 }
 
@@ -903,7 +908,7 @@ body.sidebar-open.sidebar-chetnitsi .app-pill {
 .info-chart-header { margin-bottom: 16px; }
 
 .info-chart-title {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: 0.96rem;
   font-weight: 500;
   color: var(--text-primary);
@@ -1228,7 +1233,7 @@ body:not(.sidebar-open) .leaflet-left {
 .sidebar-content h4,
 .timeline-popup-content h3,
 .timeline-popup-content h4 {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   color: var(--text-primary);
   font-size: 0.98rem;
   font-weight: 500;
@@ -1388,6 +1393,7 @@ body.sidebar-open .leaflet-control-zoom {
   background: var(--bg-surface);
   color: var(--text-primary);
   border: none;
+  cursor: pointer;
   padding: 10px 14px;
   font-size: 0.66rem;
   font-weight: 500;
@@ -2023,7 +2029,7 @@ body.chetnitsi-reveal .chetnitsi-marker {
 
 .chetnitsi-member-name {
   display: block;
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-weight: 500;
   font-size: 0.96rem;
   color: var(--text-primary);
