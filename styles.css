@@ -2673,6 +2673,9 @@ body.timeline-collapsed .botev-lm { display: none !important; }
 @media (min-width: 1100px) and (max-height: 900px) {
   .timeline-panel {
     width: min(820px, calc(100vw - 2 * var(--gap)));
+    left: 50%;
+    right: auto;
+    transform: translateX(-50%);
   }
 
   .timeline-shell {
