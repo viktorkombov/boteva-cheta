@@ -370,7 +370,7 @@
       "geometry": {
         "type": "Point",
         "coordinates": [
-          24.0,
+          24,
           42.833
         ]
       }
@@ -733,7 +733,7 @@
         "id": "botev-chetnitsi-makedoniya",
         "popup_id": "botev-chetnitsi-makedoniya",
         "name": "Македония",
-        "count": 6,
+        "count": 7,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -865,7 +865,7 @@
         "id": "botev-chetnitsi-osmo-kalugerovo",
         "popup_id": "botev-chetnitsi-osmo-kalugerovo",
         "name": "Осмо Калугерово",
-        "count": 2,
+        "count": 1,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1053,7 +1053,7 @@
         "type": "Point",
         "coordinates": [
           24.87,
-          43.0
+          43
         ]
       }
     },
@@ -1129,7 +1129,7 @@
         "id": "botev-chetnitsi-samokov",
         "popup_id": "botev-chetnitsi-samokov",
         "name": "Самоков",
-        "count": 1,
+        "count": 2,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1151,7 +1151,7 @@
         "id": "botev-chetnitsi-sevlievo",
         "popup_id": "botev-chetnitsi-sevlievo",
         "name": "Севлиево",
-        "count": 3,
+        "count": 4,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1217,7 +1217,7 @@
         "id": "botev-chetnitsi-sliven",
         "popup_id": "botev-chetnitsi-sliven",
         "name": "Сливен",
-        "count": 6,
+        "count": 7,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1261,7 +1261,7 @@
         "id": "botev-chetnitsi-sofiya",
         "popup_id": "botev-chetnitsi-sofiya",
         "name": "София",
-        "count": 3,
+        "count": 1,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1327,7 +1327,7 @@
         "id": "botev-chetnitsi-svishtov",
         "popup_id": "botev-chetnitsi-svishtov",
         "name": "Свищов",
-        "count": 6,
+        "count": 8,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1459,7 +1459,7 @@
         "id": "botev-chetnitsi-tulcha",
         "popup_id": "botev-chetnitsi-tulcha",
         "name": "Тулча",
-        "count": 2,
+        "count": 3,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1525,7 +1525,7 @@
         "id": "botev-chetnitsi-vidin",
         "popup_id": "botev-chetnitsi-vidin",
         "name": "Видин",
-        "count": 1,
+        "count": 2,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1569,7 +1569,7 @@
         "id": "botev-chetnitsi-vratsa",
         "popup_id": "botev-chetnitsi-vratsa",
         "name": "Враца",
-        "count": 9,
+        "count": 10,
         "feature_type": "chetnitsi_origin",
         "layer_group": "botev_chetnitsi",
         "style_group": "chetnitsi-origin",
@@ -1626,6 +1626,226 @@
         "coordinates": [
           26.5728,
           43.2469
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-latvia",
+        "popup_id": "botev-chetnitsi-latvia",
+        "name": "Курландия, Латвия",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "approximate_region"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24,
+          56.9
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-bosna",
+        "popup_id": "botev-chetnitsi-bosna",
+        "name": "Босна",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "approximate_region"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          17.65,
+          44.05
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-chenge",
+        "popup_id": "botev-chetnitsi-chenge",
+        "name": "Ченге",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "approximate_region"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          27.47,
+          42.55
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-yastrebna",
+        "popup_id": "botev-chetnitsi-yastrebna",
+        "name": "Ястребна",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "approximate"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          26.86,
+          43.82
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-troyanski-kolibi",
+        "popup_id": "botev-chetnitsi-troyanski-kolibi",
+        "name": "Троянски колиби",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "approximate_region"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.72,
+          42.92
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-otec-paisievo",
+        "popup_id": "botev-chetnitsi-otec-paisievo",
+        "name": "Отец Паисиево",
+        "count": 2,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "known"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          24.8736327,
+          42.4584296
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-skravena",
+        "popup_id": "botev-chetnitsi-skravena",
+        "name": "Скравена",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "known"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          23.79,
+          42.95
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-nova-mahala-gabrovsko",
+        "popup_id": "botev-chetnitsi-nova-mahala-gabrovsko",
+        "name": "Нова махала, Габровско",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "approximate_region"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.32,
+          42.92
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-besarbovo",
+        "popup_id": "botev-chetnitsi-besarbovo",
+        "name": "Бесарбово",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "known"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          25.96,
+          43.77
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-chetnitsi-barie-chiflik",
+        "popup_id": "botev-chetnitsi-barie-chiflik",
+        "name": "Барие чифлик, Пиротско",
+        "count": 1,
+        "feature_type": "chetnitsi_origin",
+        "layer_group": "botev_chetnitsi",
+        "style_group": "chetnitsi-origin",
+        "min_zoom": 7,
+        "max_zoom": 10,
+        "coordinates_status": "approximate_region"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [
+          22.6,
+          43.15
         ]
       }
     }
