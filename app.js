@@ -112,12 +112,10 @@ function setSidebarMode(mode, kicker) {
 
 function renderTimelinePopup(feature, entry) {
   var popupEl   = document.getElementById('timeline-popup');
-  var kickerEl  = document.getElementById('timeline-popup-kicker');
   var titleEl   = document.getElementById('timeline-popup-title');
   var contentEl = document.getElementById('timeline-popup-content');
   var sourceEl  = document.getElementById('timeline-popup-source');
   if (!popupEl || !titleEl || !contentEl || !sourceEl) { return; }
-  if (kickerEl) { kickerEl.textContent = 'Маршрутна спирка'; }
   titleEl.textContent   = (entry && entry.title) ? entry.title : feature.properties.name;
   contentEl.innerHTML   = (entry && entry.html) ? entry.html : '';
   sourceEl.textContent  = (entry && entry.source_title) ? entry.source_title : '';

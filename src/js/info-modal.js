@@ -231,11 +231,10 @@
     var barsHtml = top.map(function (p) {
       var pct = Math.round((p.count / maxCount) * 100);
       return '<li class="chart-bar-row" data-place-id="' + esc(p.id) + '" data-place-title="' + esc(p.title) + '" title="' + esc(p.title) + ': ' + p.count + ' четници">' +
-        '<span class="chart-bar-label">' + esc(p.title) + '</span>' +
         '<div class="chart-bar-track">' +
-        '<div class="chart-bar-fill" style="--bar-pct:' + pct + '%" data-count="' + p.count + '">' +
+        '<div class="chart-bar-fill" style="--bar-pct:' + pct + '%" data-count="' + p.count + '"></div>' +
+        '<span class="chart-bar-label">' + esc(p.title) + '</span>' +
         '<span class="chart-bar-value">' + p.count + '</span>' +
-        '</div>' +
         '</div>' +
         '</li>';
     }).join('');
