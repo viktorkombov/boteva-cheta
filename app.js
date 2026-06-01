@@ -118,8 +118,8 @@ function renderTimelinePopup(feature, entry) {
   if (!popupEl || !titleEl || !contentEl || !sourceEl) { return; }
   titleEl.textContent   = (entry && entry.title) ? entry.title : feature.properties.name;
   contentEl.innerHTML   = (entry && entry.html) ? entry.html : '';
-  sourceEl.textContent  = (entry && entry.source_title) ? entry.source_title : '';
-  sourceEl.hidden       = !sourceEl.textContent;
+  sourceEl.textContent  = '';
+  sourceEl.hidden       = true;
   popupEl.hidden        = false;
   syncTimelineHeight();
 }

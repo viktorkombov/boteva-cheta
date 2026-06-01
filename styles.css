@@ -1024,6 +1024,19 @@ body.sidebar-open.sidebar-chetnitsi .app-pill {
   border-radius: var(--radius-sm);
 }
 
+.biblio-abbr {
+  align-self: flex-start;
+  margin-bottom: 4px;
+  padding: 2px 7px;
+  border: 0.5px solid rgba(118, 81, 28, 0.28);
+  border-radius: 6px;
+  color: var(--accent);
+  background: rgba(118, 81, 28, 0.07);
+  font-size: 0.66rem;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
 .biblio-authors {
   font-size: 0.8rem;
   font-weight: 500;
@@ -2001,8 +2014,8 @@ body.chetnitsi-reveal .chetnitsi-marker {
 }
 
 .chetnitsi-members-head {
-  display: grid;
-  grid-template-columns: 1.4fr 0.7fr 1.5fr;
+  display: none;
+  grid-template-columns: 1fr auto;
   gap: 14px;
   padding: 10px 14px;
   background: var(--bg);
@@ -2027,8 +2040,8 @@ body.chetnitsi-reveal .chetnitsi-marker {
 
 .chetnitsi-member-card {
   display: grid;
-  grid-template-columns: 1.4fr 0.7fr 1.5fr;
-  gap: 14px;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 14px;
   align-items: start;
   background: var(--bg);
   border: 0.5px solid var(--border);
@@ -2038,6 +2051,8 @@ body.chetnitsi-reveal .chetnitsi-marker {
 
 .chetnitsi-member-name-wrap,
 .chetnitsi-member-meta { min-width: 0; }
+
+.chetnitsi-member-meta { grid-column: 1 / -1; }
 
 .chetnitsi-member-name {
   display: block;
@@ -2067,6 +2082,21 @@ body.chetnitsi-reveal .chetnitsi-marker {
   font-size: 0.86rem;
   line-height: 1.6;
   color: var(--text-primary);
+}
+
+.chetnitsi-member-sources {
+  margin-top: 8px;
+  padding-top: 7px;
+  border-top: 0.5px solid var(--border);
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: var(--text-secondary);
+}
+
+.chetnitsi-member-sources a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .chetnitsi-member-info--empty { color: var(--text-secondary); }

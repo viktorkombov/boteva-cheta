@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "library:build": "node scripts/build-library.js",
+    "data:sourced": "node scripts/build-sourced-botev-data.js"
+  },
+  "dependencies": {
+    "pdf-parse": "^2.4.5"
+  }
+}
