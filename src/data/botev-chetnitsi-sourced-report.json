@@ -1,0 +1,72 @@
+{
+  "schema": "boteva-cheta.chetnitsi-source-report.v1",
+  "generatedAt": "2026-06-01T07:58:22.753Z",
+  "canonicalList": "src/data/botev-chetnitsi-canonical-list.html",
+  "memberCount": 205,
+  "libraryHitCount": 191,
+  "listOnlyCount": 14,
+  "listOnlyMembers": [
+    {
+      "name": "ПЕНЧО ЦОЧЕВ РАЛИНСКИ",
+      "place": "Бели Осъм"
+    },
+    {
+      "name": "СТЕФАН ПОПДИМИТРОВ (ПОПОВ ДИМИТРОВ)",
+      "place": "Бесарбово"
+    },
+    {
+      "name": "ПЕНКО ГРОЗЕВ СИМОВ",
+      "place": "Българене"
+    },
+    {
+      "name": "ИВАН ХРИСТОВ",
+      "place": "Владимирово"
+    },
+    {
+      "name": "АЛЕКСАНДЪР ХАДЖИДИМИТРОВ ЧЕНДОВ",
+      "place": "Гергевец"
+    },
+    {
+      "name": "ПЕТЪР ПАСКАЛЕВ",
+      "place": "Глушник"
+    },
+    {
+      "name": "ГРИГОР КОСТОВ МАЦИН",
+      "place": "Добринище"
+    },
+    {
+      "name": "САВО ВЪЛКОВ ВЪЧОВСКИ",
+      "place": "Драшан"
+    },
+    {
+      "name": "ДИМИТЪР КЮЧУКОВ",
+      "place": "Криворечна паланка"
+    },
+    {
+      "name": "ВАСИЛ ГЕОРГИЕВ ТРОЕНЧЕТО",
+      "place": "Орешак"
+    },
+    {
+      "name": "ХРИСТО МИНКОВ ЙОСКОВ",
+      "place": "Орешак"
+    },
+    {
+      "name": "ГЕОРГИ (ГЮРО) НАЧЕВ НАЧЕВСКИ",
+      "place": "Отец Паисиево"
+    },
+    {
+      "name": "АНТОН СТРАХИЛОВ ЧЕРНОГОРЕЦА",
+      "place": "Подгорица"
+    },
+    {
+      "name": "ДИМЧО ПЕНЕВ",
+      "place": "Ястребна"
+    }
+  ],
+  "placesNeedingReview": [],
+  "merged": {
+    "file": "src/data/botev-chetnitsi-merged-content.json",
+    "oldMatchedCount": 142,
+    "listOnlyCount": 63
+  }
+}

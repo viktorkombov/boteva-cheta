@@ -1,0 +1,54 @@
+{
+  "type": "FeatureCollection",
+  "name": "hristo-botev-cheta-sourced-forward",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "id": "botev-route-sourced",
+        "source_note": "Forward-only route line generated from sourced timeline points."
+      },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [
+            26.1025,
+            44.4268
+          ],
+          [
+            25.9699,
+            43.9037
+          ],
+          [
+            24.7655,
+            43.6972
+          ],
+          [
+            23.6822,
+            43.7917
+          ],
+          [
+            23.75,
+            43.45
+          ],
+          [
+            23.6542,
+            43.3444
+          ],
+          [
+            23.62,
+            43.23
+          ],
+          [
+            23.5936,
+            43.1511
+          ],
+          [
+            23.6231,
+            43.1075
+          ]
+        ]
+      }
+    }
+  ]
+}

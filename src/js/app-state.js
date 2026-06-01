@@ -12,10 +12,11 @@ var DATA = {
   districts:        './src/data/april-district-centers.geojson',
   popup:            './src/data/april-popup-content.json',
   botevRoute:       './src/data/botev-route.geojson',
-  botevPoints:      './src/data/botev-timeline-points.geojson',
-  botevContent:     './src/data/botev-timeline-content.json',
-  chetnitsiPlaces:  './src/data/botev-chetnitsi-places.geojson',
-  chetnitsiContent: './src/data/botev-chetnitsi-content.json'
+  botevPoints:      './src/data/botev-timeline-points-sourced.geojson',
+  botevContent:     './src/data/botev-timeline-content-sourced.json',
+  chetnitsiPlaces:  './src/data/botev-chetnitsi-merged-places.geojson',
+  chetnitsiContent: './src/data/botev-chetnitsi-merged-content.json',
+  chetnitsiOverlay: null
 };
 
 /* ── Map constants ────────────────────────────────────────── */

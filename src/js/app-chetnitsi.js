@@ -4,13 +4,48 @@
    ============================================================ */
 'use strict';
 
+function applyChetnitsiOverlay(content, overlay) {
+  if (!overlay) { return content; }
+  var data = content;
+
+  (overlay.memberUpdates || []).forEach(function (upd) {
+    var entry = data[upd.placeId];
+    if (!entry) { return; }
+    var match = upd.matchName.toUpperCase();
+    (entry.members || []).forEach(function (m) {
+      if (m.name && m.name.toUpperCase().indexOf(match) !== -1) {
+        Object.assign(m, upd.patch);
+      }
+    });
+  });
+
+  Object.keys(overlay.memberAdditions || {}).forEach(function (placeId) {
+    var entry = data[placeId];
+    if (!entry) { return; }
+    var additions = overlay.memberAdditions[placeId];
+    entry.members = (entry.members || []).concat(additions);
+    entry.count   = entry.members.length;
+    entry.summary = 'От ' + entry.title + ' са ' + entry.count + ' участника в Ботевата чета.';
+  });
+
+  Object.keys(overlay.entryAdditions || {}).forEach(function (placeId) {
+    data[placeId] = overlay.entryAdditions[placeId];
+  });
+
+  return data;
+}
+
 function loadChetnitsiData() {
+  var overlayPromise = DATA.chetnitsiOverlay ?
+    fetch(DATA.chetnitsiOverlay).then(function (r) { return r.json(); }).catch(function () { return null; }) :
+    Promise.resolve(null);
   return Promise.all([
     fetch(DATA.chetnitsiPlaces).then(function (r) { return r.json(); }),
-    fetch(DATA.chetnitsiContent).then(function (r) { return r.json(); })
+    fetch(DATA.chetnitsiContent).then(function (r) { return r.json(); }),
+    overlayPromise
   ]).then(function (results) {
     allFeatures.chetnitsi = (results[0].features || []).slice();
-    chetnitsiContent      = results[1] || {};
+    chetnitsiContent      = applyChetnitsiOverlay(results[1] || {}, results[2]);
   }).catch(function (err) {
     console.warn('Chetnitsi data failed to load', err);
   });
@@ -60,7 +95,7 @@ function openChetnitsiPanel(feature, skipPan, highlightName) {
   openInfoPanel(feature, {
     title:        entry.title || feature.properties.name,
     html:         renderChetnitsiContent(entry),
-    source_title: entry.source_title || ''
+    source_title: ''
   }, {
     mode:   'chetnitsi',
     kicker: 'Ботеви четници'
@@ -116,6 +151,7 @@ function renderChetnitsiContent(entry) {
       html += '<div class="chetnitsi-member-meta">';
       if (m.role) { html += '<div class="chetnitsi-member-role">' + escapeHtml(m.role) + '</div>'; }
       if (m.info) { html += '<div class="chetnitsi-member-info">' + escapeHtml(m.info) + '</div>'; }
+      html += renderMemberSources(m);
       if (!m.role && !m.info) { html += '<div class="chetnitsi-member-info chetnitsi-member-info--empty">—</div>'; }
       html += '</div>';
       html += '</li>';
@@ -126,6 +162,20 @@ function renderChetnitsiContent(entry) {
 
   html += '</div>';
   return html;
+}
+
+function renderMemberSources(member) {
+  var sources = Array.isArray(member.sources) ? member.sources : [];
+  if (!sources.length) {
+    if (member.sourceStatus === 'list-only') {
+      return '<div class="chetnitsi-member-sources">Източник: приложен списък; не е намерено сигурно OCR съвпадение в /library.</div>';
+    }
+    return '';
+  }
+  var sourceHtml = sources.slice(0, 2).map(function (s) {
+    return escapeHtml(s.citationShort || ((s.abbr || 'Източник') + ', с. ' + (s.printedPage || 'без паг.')));
+  }).join('; ');
+  return '<div class="chetnitsi-member-sources">Източник: ' + sourceHtml + '</div>';
 }
 
 function initChetnitsiSearch() {

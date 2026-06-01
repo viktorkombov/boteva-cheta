@@ -6,9 +6,10 @@
 (function () {
   'use strict';
 
-  var DATA_URL = './src/data/info-modal-content.json';
-  var BIBLIO_URL = './src/data/bibliography.json';
-  var CHETNITSI_URL = './src/data/botev-chetnitsi-content.json';
+  var DATA_URL     = './src/data/info-modal-content.json';
+  var BIBLIO_URL   = './src/data/bibliography.json';
+  var CHETNITSI_URL = './src/data/botev-chetnitsi-merged-content.json';
+  var OVERLAY_URL  = null;
 
   var modalContent = null;
   var biblio = null;
@@ -109,13 +110,15 @@
     var p1 = fetch(DATA_URL).then(function (r) { return r.json(); });
     var p2 = fetch(BIBLIO_URL).then(function (r) { return r.json(); });
     var p3 = fetch(CHETNITSI_URL).then(function (r) { return r.json(); });
+    var p4 = OVERLAY_URL ?
+      fetch(OVERLAY_URL).then(function (r) { return r.json(); }).catch(function () { return null; }) :
+      Promise.resolve(null);
 
-    Promise.all([p1, p2, p3]).then(function (results) {
-      modalContent = results[0];
-      biblio = results[1];
-      chetnitsiData = results[2];
-      dataLoaded = true;
-      /* Render if modal is already open (user clicked fast) */
+    Promise.all([p1, p2, p3, p4]).then(function (results) {
+      modalContent  = results[0];
+      biblio        = results[1];
+      chetnitsiData = applyChetnitsiOverlay(results[2] || {}, results[3]);
+      dataLoaded    = true;
       var modal = document.getElementById('info-modal');
       if (modal && modal.classList.contains('is-open')) { renderCurrentTab(); }
     }).catch(function (err) {
@@ -313,12 +316,16 @@
     if (b.books && b.books.length) {
       html += '<div class="biblio-group"><h4 class="biblio-group-title">Книги</h4><ul class="biblio-list">';
       b.books.forEach(function (item) {
+        var meta = [];
+        if (item.edition) { meta.push(item.edition); }
+        if (item.place) { meta.push(item.place); }
+        if (item.publisher) { meta.push(item.publisher); }
+        if (item.year) { meta.push(item.year); }
         html += '<li class="biblio-item">';
+        if (item.abbr) { html += '<span class="biblio-abbr">' + esc(item.abbr) + '</span>'; }
         html += '<span class="biblio-authors">' + esc(item.authors) + '</span>';
         html += '<span class="biblio-title">' + esc(item.title) + '</span>';
-        if (item.year) { html += '<span class="biblio-meta">' + esc(item.year); }
-        if (item.publisher) { html += (item.year ? ', ' : '') + esc(item.publisher); }
-        if (item.year || item.publisher) { html += '</span>'; }
+        if (meta.length) { html += '<span class="biblio-meta">' + esc(meta.join(', ')) + '</span>'; }
         html += '</li>';
       });
       html += '</ul></div>';

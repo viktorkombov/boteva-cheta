@@ -1,0 +1,97 @@
+{
+  "_schema": "boteva-cheta.chetnitsi-overlay.v1",
+  "_source": "Радка Стоянова, Социален произход и брой на Ботевите четници; Ив. Унджиев, Цв. Унджиева, Христо Ботев. Живот и дело",
+  "memberUpdates": [
+    {
+      "placeId": "botev-chetnitsi-targovishte",
+      "matchName": "СИМОВ",
+      "patch": { "photo": "photos/nikola-simov-kuruto.jpg" }
+    },
+    {
+      "placeId": "botev-chetnitsi-turiya",
+      "matchName": "ЦАНКО МИНКОВ ДЕЧЕВ",
+      "patch": { "years": "1854–1944" }
+    },
+    {
+      "placeId": "botev-chetnitsi-pirdop",
+      "matchName": "ДИМИТЪР ТОДОРОВ НОЧЕВ",
+      "patch": { "years": "1850–1916" }
+    },
+    {
+      "placeId": "botev-chetnitsi-gabrovo",
+      "matchName": "БАГРЯНОВ",
+      "patch": { "years": "1837–1917" }
+    },
+    {
+      "placeId": "botev-chetnitsi-lovech",
+      "matchName": "ТОДОР ИЛИЕВ СТОЙКОВ",
+      "patch": { "years": "1852–1912" }
+    },
+    {
+      "placeId": "botev-chetnitsi-ruska-byala",
+      "matchName": "НИКОЛА НАНОВ СТОЯНОВ",
+      "patch": { "years": "1843–1879" }
+    },
+    {
+      "placeId": "botev-chetnitsi-vratsa",
+      "matchName": "ДАВИД ТОДОРОВ САВОВ",
+      "patch": { "photo": "photos/david-savov.jpg" }
+    },
+    {
+      "placeId": "botev-chetnitsi-ruse",
+      "matchName": "НИКОЛА ТИХОВ ОБРЕТЕНОВ",
+      "patch": { "photo": "photos/nikolay-obratenov.jpg" }
+    },
+    {
+      "placeId": "botev-chetnitsi-tulcha",
+      "matchName": "СПАС ИВАНОВ СОКОЛОВ",
+      "patch": { "photo": "photos/spas-sokolov.jpg" }
+    },
+    {
+      "placeId": "botev-chetnitsi-stara-zagora",
+      "matchName": "ГЕОРГИ АПОСТОЛОВ МИНЧЕВ",
+      "patch": { "photo": "photos/georgi-minchev.jpg" }
+    }
+  ],
+  "memberAdditions": {
+    "botev-chetnitsi-oreshak": [
+      {
+        "name": "ВАСИЛ ГЕОРГИЕВ ТРОЕНЧЕТО",
+        "years": "",
+        "role": "Четник",
+        "info": "От с. Орешак, Троянско. Убит в Етрополския балкан."
+      }
+    ],
+    "botev-chetnitsi-mirkovo": [
+      {
+        "name": "ДИМИТЪР НИКОЛОВ КОЛЕНЦОВ",
+        "years": "",
+        "role": "Четник",
+        "info": "От с. Мирково, Пирдопско. Съдбата му не е документирана."
+      }
+    ],
+    "botev-chetnitsi-balgarene": [
+      {
+        "name": "СТОЯН КОЛЕВ ТИНКОВ ГОСПОДИНСКИ",
+        "years": "",
+        "role": "Четник",
+        "info": "Роден в с. Българене, Ловешко. Известен и като Ловчелията. Убит при с. Бели Осъм, Троянско."
+      }
+    ]
+  },
+  "entryAdditions": {
+    "botev-chetnitsi-bozhenite": {
+      "title": "Боженците",
+      "summary": "От Боженците е 1 участник в Ботевата чета.",
+      "count": 1,
+      "members": [
+        {
+          "name": "ХРИСТО ИВАНОВ СТОЯНОВ",
+          "years": "",
+          "role": "Четник",
+          "info": "От с. Боженците, Габровско. Убит в м. Просечник над с. Васильово, Тетевенско."
+        }
+      ]
+    }
+  }
+}
